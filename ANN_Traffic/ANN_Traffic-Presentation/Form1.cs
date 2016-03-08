@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ANN_Traffic_Presentation
 {
-    public partial class Form1 : Form
+    public partial class FormAnnTrafficMain : Form
     {
-        public Form1()
+        public FormAnnTrafficMain()
         {
             InitializeComponent();
         }
