@@ -47,9 +47,20 @@
             this.comboBoxSimulationSpeed = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.checkBoxDraw = new System.Windows.Forms.CheckBox();
-            this.panelTrafficDraw = new System.Windows.Forms.Panel();
+            this.panelTrafficDrawArea = new System.Windows.Forms.Panel();
+            this.groupBoxANN = new System.Windows.Forms.GroupBox();
+            this.labelBestFitness = new System.Windows.Forms.Label();
+            this.labelValBestFitness = new System.Windows.Forms.Label();
+            this.labelAchieved = new System.Windows.Forms.Label();
+            this.labelValAchieved = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.labelValCurrentGen = new System.Windows.Forms.Label();
+            this.labelValOrganismInGen = new System.Windows.Forms.Label();
+            this.labelOrganismInGen = new System.Windows.Forms.Label();
+            this.panelANNDrawArea = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBoxANN.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonStop
@@ -259,7 +270,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.panelTrafficDraw);
+            this.groupBox2.Controls.Add(this.panelTrafficDrawArea);
             this.groupBox2.Location = new System.Drawing.Point(313, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(457, 317);
@@ -279,20 +290,123 @@
             this.checkBoxDraw.Text = "Draw?";
             this.checkBoxDraw.UseVisualStyleBackColor = true;
             // 
-            // panelTrafficDraw
+            // panelTrafficDrawArea
             // 
-            this.panelTrafficDraw.BackColor = System.Drawing.Color.Green;
-            this.panelTrafficDraw.Location = new System.Drawing.Point(7, 22);
-            this.panelTrafficDraw.Name = "panelTrafficDraw";
-            this.panelTrafficDraw.Size = new System.Drawing.Size(444, 289);
-            this.panelTrafficDraw.TabIndex = 0;
+            this.panelTrafficDrawArea.BackColor = System.Drawing.Color.Green;
+            this.panelTrafficDrawArea.Location = new System.Drawing.Point(7, 22);
+            this.panelTrafficDrawArea.Name = "panelTrafficDrawArea";
+            this.panelTrafficDrawArea.Size = new System.Drawing.Size(444, 289);
+            this.panelTrafficDrawArea.TabIndex = 0;
+            // 
+            // groupBoxANN
+            // 
+            this.groupBoxANN.Controls.Add(this.panelANNDrawArea);
+            this.groupBoxANN.Controls.Add(this.labelValOrganismInGen);
+            this.groupBoxANN.Controls.Add(this.labelOrganismInGen);
+            this.groupBoxANN.Controls.Add(this.labelValCurrentGen);
+            this.groupBoxANN.Controls.Add(this.label1);
+            this.groupBoxANN.Controls.Add(this.labelValAchieved);
+            this.groupBoxANN.Controls.Add(this.labelAchieved);
+            this.groupBoxANN.Controls.Add(this.labelValBestFitness);
+            this.groupBoxANN.Controls.Add(this.labelBestFitness);
+            this.groupBoxANN.Location = new System.Drawing.Point(12, 335);
+            this.groupBoxANN.Name = "groupBoxANN";
+            this.groupBoxANN.Size = new System.Drawing.Size(757, 354);
+            this.groupBoxANN.TabIndex = 6;
+            this.groupBoxANN.TabStop = false;
+            this.groupBoxANN.Text = "ANN";
+            // 
+            // labelBestFitness
+            // 
+            this.labelBestFitness.AutoSize = true;
+            this.labelBestFitness.Location = new System.Drawing.Point(366, 18);
+            this.labelBestFitness.Name = "labelBestFitness";
+            this.labelBestFitness.Size = new System.Drawing.Size(89, 17);
+            this.labelBestFitness.TabIndex = 0;
+            this.labelBestFitness.Text = "Best Fitness:";
+            // 
+            // labelValBestFitness
+            // 
+            this.labelValBestFitness.AutoSize = true;
+            this.labelValBestFitness.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelValBestFitness.Location = new System.Drawing.Point(461, 18);
+            this.labelValBestFitness.Name = "labelValBestFitness";
+            this.labelValBestFitness.Size = new System.Drawing.Size(35, 17);
+            this.labelValBestFitness.TabIndex = 1;
+            this.labelValBestFitness.Text = "100";
+            // 
+            // labelAchieved
+            // 
+            this.labelAchieved.AutoSize = true;
+            this.labelAchieved.Location = new System.Drawing.Point(539, 18);
+            this.labelAchieved.Name = "labelAchieved";
+            this.labelAchieved.Size = new System.Drawing.Size(116, 17);
+            this.labelAchieved.TabIndex = 2;
+            this.labelAchieved.Text = "Achieved in Gen:";
+            // 
+            // labelValAchieved
+            // 
+            this.labelValAchieved.AutoSize = true;
+            this.labelValAchieved.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelValAchieved.Location = new System.Drawing.Point(661, 18);
+            this.labelValAchieved.Name = "labelValAchieved";
+            this.labelValAchieved.Size = new System.Drawing.Size(26, 17);
+            this.labelValAchieved.TabIndex = 3;
+            this.labelValAchieved.Text = "34";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(90, 17);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Current Gen:";
+            // 
+            // labelValCurrentGen
+            // 
+            this.labelValCurrentGen.AutoSize = true;
+            this.labelValCurrentGen.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelValCurrentGen.Location = new System.Drawing.Point(112, 18);
+            this.labelValCurrentGen.Name = "labelValCurrentGen";
+            this.labelValCurrentGen.Size = new System.Drawing.Size(26, 17);
+            this.labelValCurrentGen.TabIndex = 5;
+            this.labelValCurrentGen.Text = "45";
+            // 
+            // labelValOrganismInGen
+            // 
+            this.labelValOrganismInGen.AutoSize = true;
+            this.labelValOrganismInGen.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelValOrganismInGen.Location = new System.Drawing.Point(305, 18);
+            this.labelValOrganismInGen.Name = "labelValOrganismInGen";
+            this.labelValOrganismInGen.Size = new System.Drawing.Size(17, 17);
+            this.labelValOrganismInGen.TabIndex = 7;
+            this.labelValOrganismInGen.Text = "6";
+            // 
+            // labelOrganismInGen
+            // 
+            this.labelOrganismInGen.AutoSize = true;
+            this.labelOrganismInGen.Location = new System.Drawing.Point(180, 18);
+            this.labelOrganismInGen.Name = "labelOrganismInGen";
+            this.labelOrganismInGen.Size = new System.Drawing.Size(119, 17);
+            this.labelOrganismInGen.TabIndex = 6;
+            this.labelOrganismInGen.Text = "Organism in Gen:";
+            // 
+            // panelANNDrawArea
+            // 
+            this.panelANNDrawArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.panelANNDrawArea.Location = new System.Drawing.Point(9, 39);
+            this.panelANNDrawArea.Name = "panelANNDrawArea";
+            this.panelANNDrawArea.Size = new System.Drawing.Size(742, 309);
+            this.panelANNDrawArea.TabIndex = 8;
             // 
             // FormAnnTrafficMain
             // 
             this.AcceptButton = this.buttonStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(781, 514);
+            this.ClientSize = new System.Drawing.Size(781, 694);
+            this.Controls.Add(this.groupBoxANN);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "FormAnnTrafficMain";
@@ -300,6 +414,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBoxANN.ResumeLayout(false);
+            this.groupBoxANN.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -325,7 +441,17 @@
         private System.Windows.Forms.ComboBox comboBoxCarSpeed;
         private System.Windows.Forms.CheckBox checkBoxDraw;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Panel panelTrafficDraw;
+        private System.Windows.Forms.Panel panelTrafficDrawArea;
+        private System.Windows.Forms.GroupBox groupBoxANN;
+        private System.Windows.Forms.Label labelValOrganismInGen;
+        private System.Windows.Forms.Label labelOrganismInGen;
+        private System.Windows.Forms.Label labelValCurrentGen;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelValAchieved;
+        private System.Windows.Forms.Label labelAchieved;
+        private System.Windows.Forms.Label labelValBestFitness;
+        private System.Windows.Forms.Label labelBestFitness;
+        private System.Windows.Forms.Panel panelANNDrawArea;
     }
 }
 
