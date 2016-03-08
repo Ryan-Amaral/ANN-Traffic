@@ -38,26 +38,28 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.comboBoxMaxCarsPerQueue = new System.Windows.Forms.ComboBox();
-            this.comboBoxGenerations = new System.Windows.Forms.ComboBox();
-            this.comboBoxOrganismsPerGen = new System.Windows.Forms.ComboBox();
-            this.comboBoxCarSpeed = new System.Windows.Forms.ComboBox();
-            this.comboBoxCarAcceleration = new System.Windows.Forms.ComboBox();
-            this.comboBoxMutationProb = new System.Windows.Forms.ComboBox();
-            this.comboBoxSimulationSpeed = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.comboBoxCarSpawnRate = new System.Windows.Forms.ComboBox();
+            this.labelCarSpawnRate = new System.Windows.Forms.Label();
             this.checkBoxDraw = new System.Windows.Forms.CheckBox();
+            this.comboBoxSimulationSpeed = new System.Windows.Forms.ComboBox();
+            this.comboBoxMutationProb = new System.Windows.Forms.ComboBox();
+            this.comboBoxCarAcceleration = new System.Windows.Forms.ComboBox();
+            this.comboBoxCarSpeed = new System.Windows.Forms.ComboBox();
+            this.comboBoxOrganismsPerGen = new System.Windows.Forms.ComboBox();
+            this.comboBoxGenerations = new System.Windows.Forms.ComboBox();
+            this.comboBoxMaxCarsPerQueue = new System.Windows.Forms.ComboBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panelTrafficDrawArea = new System.Windows.Forms.Panel();
             this.groupBoxANN = new System.Windows.Forms.GroupBox();
-            this.labelBestFitness = new System.Windows.Forms.Label();
-            this.labelValBestFitness = new System.Windows.Forms.Label();
-            this.labelAchieved = new System.Windows.Forms.Label();
-            this.labelValAchieved = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.labelValCurrentGen = new System.Windows.Forms.Label();
+            this.panelANNDrawArea = new System.Windows.Forms.Panel();
             this.labelValOrganismInGen = new System.Windows.Forms.Label();
             this.labelOrganismInGen = new System.Windows.Forms.Label();
-            this.panelANNDrawArea = new System.Windows.Forms.Panel();
+            this.labelValCurrentGen = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.labelValAchieved = new System.Windows.Forms.Label();
+            this.labelAchieved = new System.Windows.Forms.Label();
+            this.labelValBestFitness = new System.Windows.Forms.Label();
+            this.labelBestFitness = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBoxANN.SuspendLayout();
@@ -65,21 +67,23 @@
             // 
             // buttonStop
             // 
-            this.buttonStop.Location = new System.Drawing.Point(160, 288);
+            this.buttonStop.Location = new System.Drawing.Point(160, 331);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(75, 23);
             this.buttonStop.TabIndex = 10;
             this.buttonStop.Text = "Stop";
             this.buttonStop.UseVisualStyleBackColor = true;
+            this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
             // 
             // buttonStart
             // 
-            this.buttonStart.Location = new System.Drawing.Point(59, 288);
+            this.buttonStart.Location = new System.Drawing.Point(59, 331);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(75, 23);
             this.buttonStart.TabIndex = 9;
             this.buttonStart.Text = "Start";
             this.buttonStart.UseVisualStyleBackColor = true;
+            this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
             // 
             // label2
             // 
@@ -146,6 +150,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboBoxCarSpawnRate);
+            this.groupBox1.Controls.Add(this.labelCarSpawnRate);
             this.groupBox1.Controls.Add(this.checkBoxDraw);
             this.groupBox1.Controls.Add(this.comboBoxSimulationSpeed);
             this.groupBox1.Controls.Add(this.comboBoxMutationProb);
@@ -165,79 +171,62 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(295, 317);
+            this.groupBox1.Size = new System.Drawing.Size(295, 363);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Configure";
             // 
-            // comboBoxMaxCarsPerQueue
+            // comboBoxCarSpawnRate
             // 
-            this.comboBoxMaxCarsPerQueue.FormattingEnabled = true;
-            this.comboBoxMaxCarsPerQueue.Items.AddRange(new object[] {
-            "5",
-            "10",
-            "25",
-            "50",
-            "100"});
-            this.comboBoxMaxCarsPerQueue.Location = new System.Drawing.Point(154, 154);
-            this.comboBoxMaxCarsPerQueue.Name = "comboBoxMaxCarsPerQueue";
-            this.comboBoxMaxCarsPerQueue.Size = new System.Drawing.Size(121, 24);
-            this.comboBoxMaxCarsPerQueue.TabIndex = 5;
-            // 
-            // comboBoxGenerations
-            // 
-            this.comboBoxGenerations.FormattingEnabled = true;
-            this.comboBoxGenerations.Items.AddRange(new object[] {
-            "10",
-            "100",
-            "1000",
-            "10000"});
-            this.comboBoxGenerations.Location = new System.Drawing.Point(154, 115);
-            this.comboBoxGenerations.Name = "comboBoxGenerations";
-            this.comboBoxGenerations.Size = new System.Drawing.Size(121, 24);
-            this.comboBoxGenerations.TabIndex = 4;
-            // 
-            // comboBoxOrganismsPerGen
-            // 
-            this.comboBoxOrganismsPerGen.FormattingEnabled = true;
-            this.comboBoxOrganismsPerGen.Items.AddRange(new object[] {
-            "5",
-            "10",
-            "20",
-            "50"});
-            this.comboBoxOrganismsPerGen.Location = new System.Drawing.Point(154, 90);
-            this.comboBoxOrganismsPerGen.Name = "comboBoxOrganismsPerGen";
-            this.comboBoxOrganismsPerGen.Size = new System.Drawing.Size(121, 24);
-            this.comboBoxOrganismsPerGen.TabIndex = 3;
-            // 
-            // comboBoxCarSpeed
-            // 
-            this.comboBoxCarSpeed.FormattingEnabled = true;
-            this.comboBoxCarSpeed.Items.AddRange(new object[] {
+            this.comboBoxCarSpawnRate.FormattingEnabled = true;
+            this.comboBoxCarSpawnRate.Items.AddRange(new object[] {
             "Very Slow",
             "Slow",
             "Medium",
             "Fast",
             "Very Fast"});
-            this.comboBoxCarSpeed.Location = new System.Drawing.Point(154, 178);
-            this.comboBoxCarSpeed.Name = "comboBoxCarSpeed";
-            this.comboBoxCarSpeed.Size = new System.Drawing.Size(121, 24);
-            this.comboBoxCarSpeed.TabIndex = 6;
+            this.comboBoxCarSpawnRate.Location = new System.Drawing.Point(154, 227);
+            this.comboBoxCarSpawnRate.Name = "comboBoxCarSpawnRate";
+            this.comboBoxCarSpawnRate.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxCarSpawnRate.TabIndex = 13;
+            this.comboBoxCarSpawnRate.SelectedIndexChanged += new System.EventHandler(this.comboBoxCarSpawnRate_SelectedIndexChanged);
             // 
-            // comboBoxCarAcceleration
+            // labelCarSpawnRate
             // 
-            this.comboBoxCarAcceleration.FormattingEnabled = true;
-            this.comboBoxCarAcceleration.Items.AddRange(new object[] {
+            this.labelCarSpawnRate.AutoSize = true;
+            this.labelCarSpawnRate.Location = new System.Drawing.Point(6, 230);
+            this.labelCarSpawnRate.Name = "labelCarSpawnRate";
+            this.labelCarSpawnRate.Size = new System.Drawing.Size(114, 17);
+            this.labelCarSpawnRate.TabIndex = 12;
+            this.labelCarSpawnRate.Text = "Car Spawn Rate:";
+            // 
+            // checkBoxDraw
+            // 
+            this.checkBoxDraw.AutoSize = true;
+            this.checkBoxDraw.Checked = true;
+            this.checkBoxDraw.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxDraw.Location = new System.Drawing.Point(154, 282);
+            this.checkBoxDraw.Name = "checkBoxDraw";
+            this.checkBoxDraw.Size = new System.Drawing.Size(70, 21);
+            this.checkBoxDraw.TabIndex = 8;
+            this.checkBoxDraw.Text = "Draw?";
+            this.checkBoxDraw.UseVisualStyleBackColor = true;
+            this.checkBoxDraw.CheckedChanged += new System.EventHandler(this.checkBoxDraw_CheckedChanged);
+            // 
+            // comboBoxSimulationSpeed
+            // 
+            this.comboBoxSimulationSpeed.FormattingEnabled = true;
+            this.comboBoxSimulationSpeed.Items.AddRange(new object[] {
             "Very Slow",
             "Slow",
             "Medium",
             "Fast",
-            "Very Fast",
-            "Instant"});
-            this.comboBoxCarAcceleration.Location = new System.Drawing.Point(154, 203);
-            this.comboBoxCarAcceleration.Name = "comboBoxCarAcceleration";
-            this.comboBoxCarAcceleration.Size = new System.Drawing.Size(121, 24);
-            this.comboBoxCarAcceleration.TabIndex = 7;
+            "Very Fast"});
+            this.comboBoxSimulationSpeed.Location = new System.Drawing.Point(154, 26);
+            this.comboBoxSimulationSpeed.Name = "comboBoxSimulationSpeed";
+            this.comboBoxSimulationSpeed.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxSimulationSpeed.TabIndex = 1;
+            this.comboBoxSimulationSpeed.SelectedIndexChanged += new System.EventHandler(this.comboBoxSimulationSpeed_SelectedIndexChanged);
             // 
             // comboBoxMutationProb
             // 
@@ -253,50 +242,100 @@
             this.comboBoxMutationProb.Name = "comboBoxMutationProb";
             this.comboBoxMutationProb.Size = new System.Drawing.Size(121, 24);
             this.comboBoxMutationProb.TabIndex = 2;
+            this.comboBoxMutationProb.SelectedIndexChanged += new System.EventHandler(this.comboBoxMutationProb_SelectedIndexChanged);
             // 
-            // comboBoxSimulationSpeed
+            // comboBoxCarAcceleration
             // 
-            this.comboBoxSimulationSpeed.FormattingEnabled = true;
-            this.comboBoxSimulationSpeed.Items.AddRange(new object[] {
+            this.comboBoxCarAcceleration.FormattingEnabled = true;
+            this.comboBoxCarAcceleration.Items.AddRange(new object[] {
+            "Very Slow",
+            "Slow",
+            "Medium",
+            "Fast",
+            "Very Fast",
+            "Instant"});
+            this.comboBoxCarAcceleration.Location = new System.Drawing.Point(154, 203);
+            this.comboBoxCarAcceleration.Name = "comboBoxCarAcceleration";
+            this.comboBoxCarAcceleration.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxCarAcceleration.TabIndex = 7;
+            this.comboBoxCarAcceleration.SelectedIndexChanged += new System.EventHandler(this.comboBoxCarAcceleration_SelectedIndexChanged);
+            // 
+            // comboBoxCarSpeed
+            // 
+            this.comboBoxCarSpeed.FormattingEnabled = true;
+            this.comboBoxCarSpeed.Items.AddRange(new object[] {
             "Very Slow",
             "Slow",
             "Medium",
             "Fast",
             "Very Fast"});
-            this.comboBoxSimulationSpeed.Location = new System.Drawing.Point(154, 26);
-            this.comboBoxSimulationSpeed.Name = "comboBoxSimulationSpeed";
-            this.comboBoxSimulationSpeed.Size = new System.Drawing.Size(121, 24);
-            this.comboBoxSimulationSpeed.TabIndex = 1;
+            this.comboBoxCarSpeed.Location = new System.Drawing.Point(154, 178);
+            this.comboBoxCarSpeed.Name = "comboBoxCarSpeed";
+            this.comboBoxCarSpeed.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxCarSpeed.TabIndex = 6;
+            this.comboBoxCarSpeed.SelectedIndexChanged += new System.EventHandler(this.comboBoxCarSpeed_SelectedIndexChanged);
+            // 
+            // comboBoxOrganismsPerGen
+            // 
+            this.comboBoxOrganismsPerGen.FormattingEnabled = true;
+            this.comboBoxOrganismsPerGen.Items.AddRange(new object[] {
+            "5",
+            "10",
+            "20",
+            "50"});
+            this.comboBoxOrganismsPerGen.Location = new System.Drawing.Point(154, 90);
+            this.comboBoxOrganismsPerGen.Name = "comboBoxOrganismsPerGen";
+            this.comboBoxOrganismsPerGen.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxOrganismsPerGen.TabIndex = 3;
+            this.comboBoxOrganismsPerGen.SelectedIndexChanged += new System.EventHandler(this.comboBoxOrganismsPerGen_SelectedIndexChanged);
+            // 
+            // comboBoxGenerations
+            // 
+            this.comboBoxGenerations.FormattingEnabled = true;
+            this.comboBoxGenerations.Items.AddRange(new object[] {
+            "10",
+            "100",
+            "1000",
+            "10000"});
+            this.comboBoxGenerations.Location = new System.Drawing.Point(154, 115);
+            this.comboBoxGenerations.Name = "comboBoxGenerations";
+            this.comboBoxGenerations.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxGenerations.TabIndex = 4;
+            this.comboBoxGenerations.SelectedIndexChanged += new System.EventHandler(this.comboBoxGenerations_SelectedIndexChanged);
+            // 
+            // comboBoxMaxCarsPerQueue
+            // 
+            this.comboBoxMaxCarsPerQueue.FormattingEnabled = true;
+            this.comboBoxMaxCarsPerQueue.Items.AddRange(new object[] {
+            "5",
+            "10",
+            "25",
+            "50",
+            "100"});
+            this.comboBoxMaxCarsPerQueue.Location = new System.Drawing.Point(154, 154);
+            this.comboBoxMaxCarsPerQueue.Name = "comboBoxMaxCarsPerQueue";
+            this.comboBoxMaxCarsPerQueue.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxMaxCarsPerQueue.TabIndex = 5;
+            this.comboBoxMaxCarsPerQueue.SelectedIndexChanged += new System.EventHandler(this.comboBoxMaxCarsPerQueue_SelectedIndexChanged);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.panelTrafficDrawArea);
             this.groupBox2.Location = new System.Drawing.Point(313, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(457, 317);
+            this.groupBox2.Size = new System.Drawing.Size(457, 363);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Traffic Visualization";
-            // 
-            // checkBoxDraw
-            // 
-            this.checkBoxDraw.AutoSize = true;
-            this.checkBoxDraw.Checked = true;
-            this.checkBoxDraw.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxDraw.Location = new System.Drawing.Point(154, 248);
-            this.checkBoxDraw.Name = "checkBoxDraw";
-            this.checkBoxDraw.Size = new System.Drawing.Size(70, 21);
-            this.checkBoxDraw.TabIndex = 8;
-            this.checkBoxDraw.Text = "Draw?";
-            this.checkBoxDraw.UseVisualStyleBackColor = true;
             // 
             // panelTrafficDrawArea
             // 
             this.panelTrafficDrawArea.BackColor = System.Drawing.Color.Green;
             this.panelTrafficDrawArea.Location = new System.Drawing.Point(7, 22);
             this.panelTrafficDrawArea.Name = "panelTrafficDrawArea";
-            this.panelTrafficDrawArea.Size = new System.Drawing.Size(444, 289);
+            this.panelTrafficDrawArea.Size = new System.Drawing.Size(444, 335);
             this.panelTrafficDrawArea.TabIndex = 0;
+            this.panelTrafficDrawArea.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelTrafficDrawArea_Paint);
             // 
             // groupBoxANN
             // 
@@ -309,69 +348,20 @@
             this.groupBoxANN.Controls.Add(this.labelAchieved);
             this.groupBoxANN.Controls.Add(this.labelValBestFitness);
             this.groupBoxANN.Controls.Add(this.labelBestFitness);
-            this.groupBoxANN.Location = new System.Drawing.Point(12, 335);
+            this.groupBoxANN.Location = new System.Drawing.Point(12, 381);
             this.groupBoxANN.Name = "groupBoxANN";
             this.groupBoxANN.Size = new System.Drawing.Size(757, 354);
             this.groupBoxANN.TabIndex = 6;
             this.groupBoxANN.TabStop = false;
             this.groupBoxANN.Text = "ANN";
             // 
-            // labelBestFitness
+            // panelANNDrawArea
             // 
-            this.labelBestFitness.AutoSize = true;
-            this.labelBestFitness.Location = new System.Drawing.Point(366, 18);
-            this.labelBestFitness.Name = "labelBestFitness";
-            this.labelBestFitness.Size = new System.Drawing.Size(89, 17);
-            this.labelBestFitness.TabIndex = 0;
-            this.labelBestFitness.Text = "Best Fitness:";
-            // 
-            // labelValBestFitness
-            // 
-            this.labelValBestFitness.AutoSize = true;
-            this.labelValBestFitness.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelValBestFitness.Location = new System.Drawing.Point(461, 18);
-            this.labelValBestFitness.Name = "labelValBestFitness";
-            this.labelValBestFitness.Size = new System.Drawing.Size(35, 17);
-            this.labelValBestFitness.TabIndex = 1;
-            this.labelValBestFitness.Text = "100";
-            // 
-            // labelAchieved
-            // 
-            this.labelAchieved.AutoSize = true;
-            this.labelAchieved.Location = new System.Drawing.Point(539, 18);
-            this.labelAchieved.Name = "labelAchieved";
-            this.labelAchieved.Size = new System.Drawing.Size(116, 17);
-            this.labelAchieved.TabIndex = 2;
-            this.labelAchieved.Text = "Achieved in Gen:";
-            // 
-            // labelValAchieved
-            // 
-            this.labelValAchieved.AutoSize = true;
-            this.labelValAchieved.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelValAchieved.Location = new System.Drawing.Point(661, 18);
-            this.labelValAchieved.Name = "labelValAchieved";
-            this.labelValAchieved.Size = new System.Drawing.Size(26, 17);
-            this.labelValAchieved.TabIndex = 3;
-            this.labelValAchieved.Text = "34";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 17);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Current Gen:";
-            // 
-            // labelValCurrentGen
-            // 
-            this.labelValCurrentGen.AutoSize = true;
-            this.labelValCurrentGen.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelValCurrentGen.Location = new System.Drawing.Point(112, 18);
-            this.labelValCurrentGen.Name = "labelValCurrentGen";
-            this.labelValCurrentGen.Size = new System.Drawing.Size(26, 17);
-            this.labelValCurrentGen.TabIndex = 5;
-            this.labelValCurrentGen.Text = "45";
+            this.panelANNDrawArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.panelANNDrawArea.Location = new System.Drawing.Point(9, 39);
+            this.panelANNDrawArea.Name = "panelANNDrawArea";
+            this.panelANNDrawArea.Size = new System.Drawing.Size(742, 309);
+            this.panelANNDrawArea.TabIndex = 8;
             // 
             // labelValOrganismInGen
             // 
@@ -392,25 +382,75 @@
             this.labelOrganismInGen.TabIndex = 6;
             this.labelOrganismInGen.Text = "Organism in Gen:";
             // 
-            // panelANNDrawArea
+            // labelValCurrentGen
             // 
-            this.panelANNDrawArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.panelANNDrawArea.Location = new System.Drawing.Point(9, 39);
-            this.panelANNDrawArea.Name = "panelANNDrawArea";
-            this.panelANNDrawArea.Size = new System.Drawing.Size(742, 309);
-            this.panelANNDrawArea.TabIndex = 8;
+            this.labelValCurrentGen.AutoSize = true;
+            this.labelValCurrentGen.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelValCurrentGen.Location = new System.Drawing.Point(112, 18);
+            this.labelValCurrentGen.Name = "labelValCurrentGen";
+            this.labelValCurrentGen.Size = new System.Drawing.Size(26, 17);
+            this.labelValCurrentGen.TabIndex = 5;
+            this.labelValCurrentGen.Text = "45";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(90, 17);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Current Gen:";
+            // 
+            // labelValAchieved
+            // 
+            this.labelValAchieved.AutoSize = true;
+            this.labelValAchieved.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelValAchieved.Location = new System.Drawing.Point(661, 18);
+            this.labelValAchieved.Name = "labelValAchieved";
+            this.labelValAchieved.Size = new System.Drawing.Size(26, 17);
+            this.labelValAchieved.TabIndex = 3;
+            this.labelValAchieved.Text = "34";
+            // 
+            // labelAchieved
+            // 
+            this.labelAchieved.AutoSize = true;
+            this.labelAchieved.Location = new System.Drawing.Point(539, 18);
+            this.labelAchieved.Name = "labelAchieved";
+            this.labelAchieved.Size = new System.Drawing.Size(116, 17);
+            this.labelAchieved.TabIndex = 2;
+            this.labelAchieved.Text = "Achieved in Gen:";
+            // 
+            // labelValBestFitness
+            // 
+            this.labelValBestFitness.AutoSize = true;
+            this.labelValBestFitness.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelValBestFitness.Location = new System.Drawing.Point(461, 18);
+            this.labelValBestFitness.Name = "labelValBestFitness";
+            this.labelValBestFitness.Size = new System.Drawing.Size(35, 17);
+            this.labelValBestFitness.TabIndex = 1;
+            this.labelValBestFitness.Text = "100";
+            // 
+            // labelBestFitness
+            // 
+            this.labelBestFitness.AutoSize = true;
+            this.labelBestFitness.Location = new System.Drawing.Point(366, 18);
+            this.labelBestFitness.Name = "labelBestFitness";
+            this.labelBestFitness.Size = new System.Drawing.Size(89, 17);
+            this.labelBestFitness.TabIndex = 0;
+            this.labelBestFitness.Text = "Best Fitness:";
             // 
             // FormAnnTrafficMain
             // 
             this.AcceptButton = this.buttonStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(781, 694);
+            this.ClientSize = new System.Drawing.Size(781, 741);
             this.Controls.Add(this.groupBoxANN);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "FormAnnTrafficMain";
             this.Text = "ANN Traffic";
+            this.Load += new System.EventHandler(this.FormAnnTrafficMain_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -452,6 +492,8 @@
         private System.Windows.Forms.Label labelValBestFitness;
         private System.Windows.Forms.Label labelBestFitness;
         private System.Windows.Forms.Panel panelANNDrawArea;
+        private System.Windows.Forms.ComboBox comboBoxCarSpawnRate;
+        private System.Windows.Forms.Label labelCarSpawnRate;
     }
 }
 
