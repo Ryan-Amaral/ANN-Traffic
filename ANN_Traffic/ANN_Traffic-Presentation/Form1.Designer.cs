@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.buttonStop = new System.Windows.Forms.Button();
             this.buttonStart = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -60,6 +61,7 @@
             this.labelAchieved = new System.Windows.Forms.Label();
             this.labelValBestFitness = new System.Windows.Forms.Label();
             this.labelBestFitness = new System.Windows.Forms.Label();
+            this.timerSimulation = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBoxANN.SuspendLayout();
@@ -369,9 +371,9 @@
             this.labelValOrganismInGen.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelValOrganismInGen.Location = new System.Drawing.Point(305, 18);
             this.labelValOrganismInGen.Name = "labelValOrganismInGen";
-            this.labelValOrganismInGen.Size = new System.Drawing.Size(17, 17);
+            this.labelValOrganismInGen.Size = new System.Drawing.Size(20, 17);
             this.labelValOrganismInGen.TabIndex = 7;
-            this.labelValOrganismInGen.Text = "6";
+            this.labelValOrganismInGen.Text = "--";
             // 
             // labelOrganismInGen
             // 
@@ -388,9 +390,9 @@
             this.labelValCurrentGen.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelValCurrentGen.Location = new System.Drawing.Point(112, 18);
             this.labelValCurrentGen.Name = "labelValCurrentGen";
-            this.labelValCurrentGen.Size = new System.Drawing.Size(26, 17);
+            this.labelValCurrentGen.Size = new System.Drawing.Size(20, 17);
             this.labelValCurrentGen.TabIndex = 5;
-            this.labelValCurrentGen.Text = "45";
+            this.labelValCurrentGen.Text = "--";
             // 
             // label1
             // 
@@ -407,9 +409,9 @@
             this.labelValAchieved.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelValAchieved.Location = new System.Drawing.Point(661, 18);
             this.labelValAchieved.Name = "labelValAchieved";
-            this.labelValAchieved.Size = new System.Drawing.Size(26, 17);
+            this.labelValAchieved.Size = new System.Drawing.Size(20, 17);
             this.labelValAchieved.TabIndex = 3;
-            this.labelValAchieved.Text = "34";
+            this.labelValAchieved.Text = "--";
             // 
             // labelAchieved
             // 
@@ -426,9 +428,9 @@
             this.labelValBestFitness.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelValBestFitness.Location = new System.Drawing.Point(461, 18);
             this.labelValBestFitness.Name = "labelValBestFitness";
-            this.labelValBestFitness.Size = new System.Drawing.Size(35, 17);
+            this.labelValBestFitness.Size = new System.Drawing.Size(20, 17);
             this.labelValBestFitness.TabIndex = 1;
-            this.labelValBestFitness.Text = "100";
+            this.labelValBestFitness.Text = "--";
             // 
             // labelBestFitness
             // 
@@ -438,6 +440,10 @@
             this.labelBestFitness.Size = new System.Drawing.Size(89, 17);
             this.labelBestFitness.TabIndex = 0;
             this.labelBestFitness.Text = "Best Fitness:";
+            // 
+            // timerSimulation
+            // 
+            this.timerSimulation.Tick += new System.EventHandler(this.timerSimulation_Tick);
             // 
             // FormAnnTrafficMain
             // 
@@ -494,6 +500,7 @@
         private System.Windows.Forms.Panel panelANNDrawArea;
         private System.Windows.Forms.ComboBox comboBoxCarSpawnRate;
         private System.Windows.Forms.Label labelCarSpawnRate;
+        private System.Windows.Forms.Timer timerSimulation;
     }
 }
 

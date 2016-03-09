@@ -18,6 +18,8 @@ namespace ANN_Traffic_Library
         private Rectangle _stopLineUp;
         private Rectangle _stopLineDown;
 
+
+
         public Scenery(Rectangle drawRect)
         {
             _drawRect = drawRect;

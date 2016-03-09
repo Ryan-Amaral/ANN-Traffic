@@ -13,8 +13,8 @@ namespace ANN_Traffic_Presentation
 {
     public partial class FormAnnTrafficMain : Form
     {
-        private Scenery _scenery;
-        private bool isDraw = true;
+        private Simulation _simulation; // the simulation, that does most things
+        private bool _isDraw = true; // determinces whether we will draw stuff
 
         public FormAnnTrafficMain()
         {
@@ -78,15 +78,20 @@ namespace ANN_Traffic_Presentation
 
         private void FormAnnTrafficMain_Load(object sender, EventArgs e)
         {
-            _scenery = new Scenery(panelTrafficDrawArea.DisplayRectangle);
+            // create the simulation
+            _simulation = new Simulation(panelTrafficDrawArea.DisplayRectangle);
         }
 
         private void PanelTrafficDrawArea_Paint(object sender, PaintEventArgs e)
         {
-            if(isDraw)
-            {
-                _scenery.Draw(e.Graphics);
-            }
+            _simulation.Update(_isDraw, e.Graphics);
+        }
+
+        private void timerSimulation_Tick(object sender, EventArgs e)
+        {
+            panelTrafficDrawArea.Invalidate();
+            
+            // update ann info if needed
         }
     }
 }
