@@ -28,6 +28,8 @@ namespace ANN_Traffic_Presentation
         private int _curGen = 0;
         private int _bestFitness = -9999999;
 
+        private Graphics _curGraphics;
+
         public FormAnnTrafficMain()
         {
             InitializeComponent();
@@ -63,10 +65,7 @@ namespace ANN_Traffic_Presentation
                     _simSpeed = 50;
                     break;
                 case 3:
-                    _simSpeed = 10;
-                    break;
-                case 4:
-                    _simSpeed = 1; // as fast as possible
+                    _simSpeed = 0;
                     break;
             }
 
@@ -195,14 +194,6 @@ namespace ANN_Traffic_Presentation
                 _generations, _organismsPerGen, _carSpeed, _carAcceleration, _carSpawnRate, _mutationProb, _maxStepSize);
         }
 
-        private void PanelTrafficDrawArea_Paint(object sender, PaintEventArgs e)
-        {
-            if(_simulation.IsReady)
-            {
-                _simulation.Update(_isDraw, e.Graphics); // update the simulation and draw if needed
-            }
-        }
-
         private void timerSimulation_Tick(object sender, EventArgs e)
         {
             // stop if at the end of simulation
@@ -212,7 +203,8 @@ namespace ANN_Traffic_Presentation
                 return;
             }
 
-            panelTrafficDrawArea.Invalidate(); // updates the simulation
+            //panelTrafficDrawArea.Invalidate(); // updates the simulation
+            UpdateTrafficVisual();
             
             // say what organism we are on
             labelValOrganismInGen.Text = _simulation.CurrentOrganismInGeneration.ToString();
@@ -231,7 +223,29 @@ namespace ANN_Traffic_Presentation
                 labelValAchieved.Text = _bestFitness.ToString();
             }
 
-            panelANNDrawArea.Invalidate(); // updates the ann visualization
+            //panelANNDrawArea.Invalidate(); // updates the ann visualization
+            UpdateAnnVisual();
+        }
+
+        /// <summary>
+        /// Updates the visuals in the traffic.
+        /// </summary>
+        private void UpdateTrafficVisual()
+        {
+            _curGraphics = panelTrafficDrawArea.CreateGraphics();
+
+            if (_simulation.IsReady)
+            {
+                _simulation.Update(_isDraw, _curGraphics); // update the simulation and draw if needed
+            }
+        }
+
+        /// <summary>
+        /// Updates the visuals in the ANN.
+        /// </summary>
+        private void UpdateAnnVisual()
+        {
+            // just draw it here
         }
 
         /// <summary>
@@ -256,7 +270,22 @@ namespace ANN_Traffic_Presentation
             buttonStart.Enabled = false;
             buttonStop.Enabled = true;
 
-            timerSimulation.Start();
+            if(_simSpeed > 0)
+            {
+                timerSimulation.Start();
+            }
+            else
+            {
+                DoAsapSim();
+            }
+        }
+
+        /// <summary>
+        /// Uses separate thread to run sim as fast as possible, drawing off.
+        /// </summary>
+        private void DoAsapSim()
+        {
+
         }
 
         /// <summary>

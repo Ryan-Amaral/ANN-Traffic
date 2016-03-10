@@ -50,7 +50,7 @@ namespace ANN_Traffic_Library
         private Rectangle _drawArea;// The full area to draw everything to
 
         private int _updatesSinceOrganismStart; // the amount of updates since the organism started
-        private const int UPDATES_PER_ORGANISM = 500; // the amount of updates to do before using next organism 
+        private const int UPDATES_PER_ORGANISM = 200; // the amount of updates to do before using next organism 
 
         // stuff for neural net
         private float _mutationProb;
@@ -107,6 +107,7 @@ namespace ANN_Traffic_Library
             {
                 // get score for current organism
                 // see if score is better than best score
+                _updatesSinceOrganismStart = 0;
 
                 CurrentOrganismInGeneration++;
                 // set new TrafficController or get new generation
