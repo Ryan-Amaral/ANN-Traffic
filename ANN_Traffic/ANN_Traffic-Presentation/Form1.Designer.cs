@@ -459,6 +459,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "FormAnnTrafficMain";
             this.Text = "ANN Traffic";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAnnTrafficMain_FormClosing);
             this.Load += new System.EventHandler(this.FormAnnTrafficMain_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

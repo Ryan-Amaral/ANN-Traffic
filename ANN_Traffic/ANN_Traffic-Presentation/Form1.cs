@@ -44,19 +44,39 @@ namespace ANN_Traffic_Presentation
         /// </summary>
         private void OnSimulationUpdated()
         {
-            if(this.InvokeRequired)
+            // update cur gen
+            if(labelValCurrentGen.InvokeRequired)
             {
                 MethodInvoker invoker = new MethodInvoker(
                         delegate
                         {
-                            UpdateANNInfo();
+                            if (_simulation.CurrentGeneration != _curGen)
+                            {
+                                _curGen = _simulation.CurrentGeneration;
+                                labelValCurrentGen.Text = _curGen.ToString();
+                            }
                         }
                     );
-                this.BeginInvoke(invoker);
+                labelValCurrentGen.BeginInvoke(invoker);
             }
-            else
+
+            // ignore cur organism because too fast
+
+            //update best score
+            if(labelValBestFitness.InvokeRequired)
             {
-                UpdateANNInfo();
+                MethodInvoker invoker = new MethodInvoker(
+                        delegate
+                        {
+                            if (_simulation.BestFitness > _bestFitness)
+                            {
+                                _bestFitness = _simulation.BestFitness;
+                                labelValBestFitness.Text = _bestFitness.ToString();
+                                labelValAchieved.Text = _bestFitness.ToString();
+                            }
+                        }
+                    );
+                labelValBestFitness.BeginInvoke(invoker);
             }
         }
 
@@ -305,15 +325,39 @@ namespace ANN_Traffic_Presentation
             buttonStart.Enabled = false;
             buttonStop.Enabled = true;
 
+            _simulation.Finished += new FinishedHandler(OnSimulationFinished);
+
             if(_simSpeed != 2)
             {
                 timerSimulation.Start();
             }
             else
             {
-                _simulation.Updated += new UpdatedHandler(OnSimulationUpdated);
+                _simulation.Updated += new UpdatedHandler(OnSimulationUpdated); // add listener
                 DoAsapSim();
             }
+        }
+
+        /// <summary>
+        /// Finish and save best scoring ann to file.
+        /// </summary>
+        private void OnSimulationFinished()
+        {
+            if (this.InvokeRequired)
+            {
+                MethodInvoker invoker = new MethodInvoker(
+                        delegate
+                        {
+                            StopSim();
+                        }
+                    );
+                this.BeginInvoke(invoker);
+            }
+            else
+            {
+                StopSim();
+            }
+            
         }
 
         /// <summary>
@@ -357,6 +401,15 @@ namespace ANN_Traffic_Presentation
         private void panelANNDrawArea_Paint(object sender, PaintEventArgs e)
         {
             // update the ann visual
+        }
+
+        private void FormAnnTrafficMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _simulation.NeedStop = true;
+            if (_asap != null && _asap.IsAlive)
+            {
+                _asap.Join();
+            }
         }
         
     }

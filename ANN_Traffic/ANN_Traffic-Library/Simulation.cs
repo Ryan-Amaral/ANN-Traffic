@@ -9,6 +9,7 @@ namespace ANN_Traffic_Library
 {
     // event for when update
     public delegate void UpdatedHandler();
+    public delegate void FinishedHandler();
 
     /// <summary>
     /// Where pretty much everything runs.
@@ -16,6 +17,7 @@ namespace ANN_Traffic_Library
     public class Simulation
     {
         public event UpdatedHandler Updated;
+        public event FinishedHandler Finished;
 
         /// <summary>
         /// True when simulation is ready for clock tick.
@@ -55,7 +57,7 @@ namespace ANN_Traffic_Library
         private Rectangle _drawArea;// The full area to draw everything to
 
         private int _updatesSinceOrganismStart; // the amount of updates since the organism started
-        private const int UPDATES_PER_ORGANISM = 200; // the amount of updates to do before using next organism 
+        private const int UPDATES_PER_ORGANISM = 1000; // the amount of updates to do before using next organism 
 
         // stuff for neural net
         private float _mutationProb;
@@ -106,7 +108,8 @@ namespace ANN_Traffic_Library
                 _scenery.Draw(graphics);
             }
 
-            // 
+            // get score
+
 
             // see if need new TrafficController
             if (_updatesSinceOrganismStart >= UPDATES_PER_ORGANISM)
@@ -122,6 +125,15 @@ namespace ANN_Traffic_Library
                     // spawn new generation
                     CurrentOrganismInGeneration = 0;
                     CurrentGeneration++;
+
+                    if(CurrentGeneration == _generations)
+                    {
+                        // tell we are finished
+                        if(Finished != null)
+                        {
+                            Finished();
+                        }
+                    }
                 }
 
                 // use proper element in list of TrafficControllers
@@ -139,7 +151,7 @@ namespace ANN_Traffic_Library
             {
                 Update(false, null);
 
-                if (Updated != null)
+                if (Updated != null && _updatesSinceOrganismStart % 800 == 0)
                 {
                     Updated();
                 }
