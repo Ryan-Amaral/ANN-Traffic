@@ -7,11 +7,16 @@ using System.Threading.Tasks;
 
 namespace ANN_Traffic_Library
 {
+    // event for when update
+    public delegate void UpdatedHandler();
+
     /// <summary>
     /// Where pretty much everything runs.
     /// </summary>
     public class Simulation
     {
+        public event UpdatedHandler Updated;
+
         /// <summary>
         /// True when simulation is ready for clock tick.
         /// </summary>
@@ -123,6 +128,22 @@ namespace ANN_Traffic_Library
             }
 
             IsReady = true;
+        }
+
+        /// <summary>
+        /// Keeps on calling update untill at end.
+        /// </summary>
+        public void AsyncUpdate()
+        {
+            while(!NeedStop)
+            {
+                Update(false, null);
+
+                if (Updated != null)
+                {
+                    Updated();
+                }
+            }
         }
     }
 }

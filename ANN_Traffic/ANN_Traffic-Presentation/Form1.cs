@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -30,10 +31,56 @@ namespace ANN_Traffic_Presentation
 
         private Graphics _curGraphics;
 
+        Thread _asap;
+
         public FormAnnTrafficMain()
         {
             InitializeComponent();
             timerSimulation.Stop();
+        }
+
+        /// <summary>
+        /// Update ui when simulation updates.
+        /// </summary>
+        private void OnSimulationUpdated()
+        {
+            if(this.InvokeRequired)
+            {
+                MethodInvoker invoker = new MethodInvoker(
+                        delegate
+                        {
+                            UpdateANNInfo();
+                        }
+                    );
+                this.BeginInvoke(invoker);
+            }
+            else
+            {
+                UpdateANNInfo();
+            }
+        }
+
+        private void UpdateANNInfo()
+        {
+            // say what organism we are on
+            labelValOrganismInGen.Text = _simulation.CurrentOrganismInGeneration.ToString();
+
+            if (_simulation.CurrentGeneration != _curGen)
+            {
+                _curGen = _simulation.CurrentGeneration;
+                labelValCurrentGen.Text = _curGen.ToString();
+            }
+
+            // update ann info if needed
+            if (_simulation.BestFitness > _bestFitness)
+            {
+                _bestFitness = _simulation.BestFitness;
+                labelValBestFitness.Text = _bestFitness.ToString();
+                labelValAchieved.Text = _bestFitness.ToString();
+            }
+
+            //panelANNDrawArea.Invalidate(); // updates the ann visualization
+            UpdateAnnVisual();
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
@@ -71,7 +118,7 @@ namespace ANN_Traffic_Presentation
                     _simSpeed = 1;
                     break;
                 case 5:
-                    _simSpeed = 0;
+                    _simSpeed = 2; // can't be zero but 2 will do
                     break;
             }
 
@@ -211,26 +258,8 @@ namespace ANN_Traffic_Presentation
 
             //panelTrafficDrawArea.Invalidate(); // updates the simulation
             UpdateTrafficVisual();
-            
-            // say what organism we are on
-            labelValOrganismInGen.Text = _simulation.CurrentOrganismInGeneration.ToString();
 
-            if(_simulation.CurrentGeneration != _curGen)
-            {
-                _curGen = _simulation.CurrentGeneration;
-                labelValCurrentGen.Text = _curGen.ToString();
-            }
-
-            // update ann info if needed
-            if (_simulation.BestFitness > _bestFitness)
-            {
-                _bestFitness = _simulation.BestFitness;
-                labelValBestFitness.Text = _bestFitness.ToString();
-                labelValAchieved.Text = _bestFitness.ToString();
-            }
-
-            //panelANNDrawArea.Invalidate(); // updates the ann visualization
-            UpdateAnnVisual();
+            UpdateANNInfo();
         }
 
         /// <summary>
@@ -276,12 +305,13 @@ namespace ANN_Traffic_Presentation
             buttonStart.Enabled = false;
             buttonStop.Enabled = true;
 
-            if(_simSpeed > 0)
+            if(_simSpeed != 2)
             {
                 timerSimulation.Start();
             }
             else
             {
+                _simulation.Updated += new UpdatedHandler(OnSimulationUpdated);
                 DoAsapSim();
             }
         }
@@ -291,7 +321,9 @@ namespace ANN_Traffic_Presentation
         /// </summary>
         private void DoAsapSim()
         {
-
+            _asap = new Thread(_simulation.AsyncUpdate);
+            _asap.Name = "ASAP";
+            _asap.Start();
         }
 
         /// <summary>
@@ -313,6 +345,13 @@ namespace ANN_Traffic_Presentation
             buttonStop.Enabled = false;
 
             timerSimulation.Stop();
+
+            _simulation.NeedStop = true;
+
+            if(_asap != null && _asap.IsAlive)
+            {
+                _asap.Join();
+            }
         }
 
         private void panelANNDrawArea_Paint(object sender, PaintEventArgs e)
