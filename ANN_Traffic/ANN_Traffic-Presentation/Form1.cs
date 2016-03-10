@@ -26,6 +26,7 @@ namespace ANN_Traffic_Presentation
         private int _carSpawnRate = 20;
 
         private int _curGen = 0;
+        private int _bestFitness = -9999999;
 
         public FormAnnTrafficMain()
         {
@@ -196,7 +197,10 @@ namespace ANN_Traffic_Presentation
 
         private void PanelTrafficDrawArea_Paint(object sender, PaintEventArgs e)
         {
-            _simulation.Update(_isDraw, e.Graphics); // update the simulation and draw if needed
+            if(_simulation.IsReady)
+            {
+                _simulation.Update(_isDraw, e.Graphics); // update the simulation and draw if needed
+            }
         }
 
         private void timerSimulation_Tick(object sender, EventArgs e)
@@ -220,10 +224,11 @@ namespace ANN_Traffic_Presentation
             }
 
             // update ann info if needed
-            if (_simulation.CurrentFitness >= _simulation.BestFitness)
+            if (_simulation.BestFitness > _bestFitness)
             {
-                labelValBestFitness.Text = _simulation.CurrentFitness.ToString();
-                labelValAchieved.Text = _simulation.CurrentGeneration.ToString();
+                _bestFitness = _simulation.BestFitness;
+                labelValBestFitness.Text = _bestFitness.ToString();
+                labelValAchieved.Text = _bestFitness.ToString();
             }
 
             panelANNDrawArea.Invalidate(); // updates the ann visualization
@@ -273,6 +278,11 @@ namespace ANN_Traffic_Presentation
             buttonStop.Enabled = false;
 
             timerSimulation.Stop();
+        }
+
+        private void panelANNDrawArea_Paint(object sender, PaintEventArgs e)
+        {
+            // update the ann visual
         }
         
     }

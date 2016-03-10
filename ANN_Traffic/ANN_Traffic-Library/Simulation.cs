@@ -105,12 +105,16 @@ namespace ANN_Traffic_Library
             // see if need new TrafficController
             if(_updatesSinceOrganismStart >= UPDATES_PER_ORGANISM)
             {
+                // get score for current organism
+                // see if score is better than best score
+
                 CurrentOrganismInGeneration++;
                 // set new TrafficController or get new generation
                 if (CurrentOrganismInGeneration == _organismsPerGeneration)
                 {
                     // spawn new generation
                     CurrentOrganismInGeneration = 0;
+                    CurrentGeneration++;
                 }
 
                 // use proper element in list of TrafficControllers

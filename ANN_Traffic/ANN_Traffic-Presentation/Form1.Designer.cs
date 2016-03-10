@@ -366,6 +366,7 @@
             this.panelANNDrawArea.Name = "panelANNDrawArea";
             this.panelANNDrawArea.Size = new System.Drawing.Size(742, 309);
             this.panelANNDrawArea.TabIndex = 8;
+            this.panelANNDrawArea.Paint += new System.Windows.Forms.PaintEventHandler(this.panelANNDrawArea_Paint);
             // 
             // labelValOrganismInGen
             // 
