@@ -224,7 +224,8 @@
             "Slow",
             "Medium",
             "Fast",
-            "Very Fast"});
+            "Very Fast",
+            "ASAP"});
             this.comboBoxSimulationSpeed.Location = new System.Drawing.Point(154, 31);
             this.comboBoxSimulationSpeed.Name = "comboBoxSimulationSpeed";
             this.comboBoxSimulationSpeed.Size = new System.Drawing.Size(121, 24);
@@ -339,7 +340,6 @@
             this.panelTrafficDrawArea.Name = "panelTrafficDrawArea";
             this.panelTrafficDrawArea.Size = new System.Drawing.Size(444, 335);
             this.panelTrafficDrawArea.TabIndex = 0;
-            this.panelTrafficDrawArea.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelTrafficDrawArea_Paint);
             // 
             // groupBoxANN
             // 
