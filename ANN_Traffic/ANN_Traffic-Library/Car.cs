@@ -10,15 +10,6 @@ namespace ANN_Traffic_Library
     public class Car : Sprite
     {
         /// <summary>
-        /// The x coordinate of the car.
-        /// </summary>
-        public int X { get; set; }
-        /// <summary>
-        /// The y coordinate of the car.
-        /// </summary>
-        private int Y { get; set; }
-
-        /// <summary>
         /// Tells if the car passed the finish.
         /// </summary>
         public bool IsFinished { get; set; }
@@ -58,32 +49,28 @@ namespace ANN_Traffic_Library
             {
                 case Direction.Up:
                     _carRect.Y -= _speed;
-                    Y = _carRect.Y;
-                    if(Y <= _finishLinePos)
+                    if (_carRect.Y <= _finishLinePos)
                     {
                         IsFinished = true;
                     }
                     break;
                 case Direction.Down:
                     _carRect.Y += _speed;
-                    Y = _carRect.Y;
-                    if(Y + _height >= _finishLinePos)
+                    if (_carRect.Y + _height >= _finishLinePos)
                     {
                         IsFinished = true;
                     }
                     break;
                 case Direction.Left:
                     _carRect.X -= _speed;
-                    X = _carRect.X;
-                    if(X <= _finishLinePos)
+                    if (_carRect.X <= _finishLinePos)
                     {
                         IsFinished = true;
                     }
                     break;
                 case Direction.Right:
                     _carRect.X += _speed;
-                    X = _carRect.X;
-                    if(X + _width >= _finishLinePos)
+                    if (_carRect.X + _width >= _finishLinePos)
                     {
                         IsFinished = true;
                     }

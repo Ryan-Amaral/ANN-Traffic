@@ -48,7 +48,7 @@
             this.comboBoxCarSpeed = new System.Windows.Forms.ComboBox();
             this.comboBoxOrganismsPerGen = new System.Windows.Forms.ComboBox();
             this.comboBoxGenerations = new System.Windows.Forms.ComboBox();
-            this.comboBoxMaxCarsPerQueue = new System.Windows.Forms.ComboBox();
+            this.comboBoxStepSize = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panelTrafficDrawArea = new System.Windows.Forms.Panel();
             this.groupBoxANN = new System.Windows.Forms.GroupBox();
@@ -69,6 +69,7 @@
             // 
             // buttonStop
             // 
+            this.buttonStop.Enabled = false;
             this.buttonStop.Location = new System.Drawing.Point(160, 331);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(75, 23);
@@ -90,7 +91,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 29);
+            this.label2.Location = new System.Drawing.Point(6, 34);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(122, 17);
             this.label2.TabIndex = 3;
@@ -99,7 +100,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 54);
+            this.label4.Location = new System.Drawing.Point(6, 106);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(100, 17);
             this.label4.TabIndex = 5;
@@ -108,7 +109,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 93);
+            this.label5.Location = new System.Drawing.Point(6, 58);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(136, 17);
             this.label5.TabIndex = 6;
@@ -117,7 +118,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 118);
+            this.label6.Location = new System.Drawing.Point(6, 82);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(90, 17);
             this.label6.TabIndex = 7;
@@ -126,11 +127,11 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 157);
+            this.label7.Location = new System.Drawing.Point(6, 130);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(142, 17);
+            this.label7.Size = new System.Drawing.Size(101, 17);
             this.label7.TabIndex = 8;
-            this.label7.Text = "Max Cars per Queue:";
+            this.label7.Text = "Max Step Size:";
             // 
             // label8
             // 
@@ -161,7 +162,7 @@
             this.groupBox1.Controls.Add(this.comboBoxCarSpeed);
             this.groupBox1.Controls.Add(this.comboBoxOrganismsPerGen);
             this.groupBox1.Controls.Add(this.comboBoxGenerations);
-            this.groupBox1.Controls.Add(this.comboBoxMaxCarsPerQueue);
+            this.groupBox1.Controls.Add(this.comboBoxStepSize);
             this.groupBox1.Controls.Add(this.buttonStop);
             this.groupBox1.Controls.Add(this.buttonStart);
             this.groupBox1.Controls.Add(this.label3);
@@ -224,7 +225,7 @@
             "Medium",
             "Fast",
             "Very Fast"});
-            this.comboBoxSimulationSpeed.Location = new System.Drawing.Point(154, 26);
+            this.comboBoxSimulationSpeed.Location = new System.Drawing.Point(154, 31);
             this.comboBoxSimulationSpeed.Name = "comboBoxSimulationSpeed";
             this.comboBoxSimulationSpeed.Size = new System.Drawing.Size(121, 24);
             this.comboBoxSimulationSpeed.TabIndex = 1;
@@ -234,13 +235,12 @@
             // 
             this.comboBoxMutationProb.FormattingEnabled = true;
             this.comboBoxMutationProb.Items.AddRange(new object[] {
-            "None",
             "Very Low",
             "Low",
             "Medium",
             "High",
             "Very High"});
-            this.comboBoxMutationProb.Location = new System.Drawing.Point(154, 51);
+            this.comboBoxMutationProb.Location = new System.Drawing.Point(154, 103);
             this.comboBoxMutationProb.Name = "comboBoxMutationProb";
             this.comboBoxMutationProb.Size = new System.Drawing.Size(121, 24);
             this.comboBoxMutationProb.TabIndex = 2;
@@ -284,8 +284,9 @@
             "5",
             "10",
             "20",
-            "50"});
-            this.comboBoxOrganismsPerGen.Location = new System.Drawing.Point(154, 90);
+            "50",
+            "100"});
+            this.comboBoxOrganismsPerGen.Location = new System.Drawing.Point(154, 55);
             this.comboBoxOrganismsPerGen.Name = "comboBoxOrganismsPerGen";
             this.comboBoxOrganismsPerGen.Size = new System.Drawing.Size(121, 24);
             this.comboBoxOrganismsPerGen.TabIndex = 3;
@@ -297,28 +298,29 @@
             this.comboBoxGenerations.Items.AddRange(new object[] {
             "10",
             "100",
+            "500",
             "1000",
             "10000"});
-            this.comboBoxGenerations.Location = new System.Drawing.Point(154, 115);
+            this.comboBoxGenerations.Location = new System.Drawing.Point(154, 79);
             this.comboBoxGenerations.Name = "comboBoxGenerations";
             this.comboBoxGenerations.Size = new System.Drawing.Size(121, 24);
             this.comboBoxGenerations.TabIndex = 4;
             this.comboBoxGenerations.SelectedIndexChanged += new System.EventHandler(this.comboBoxGenerations_SelectedIndexChanged);
             // 
-            // comboBoxMaxCarsPerQueue
+            // comboBoxStepSize
             // 
-            this.comboBoxMaxCarsPerQueue.FormattingEnabled = true;
-            this.comboBoxMaxCarsPerQueue.Items.AddRange(new object[] {
-            "5",
-            "10",
-            "25",
-            "50",
-            "100"});
-            this.comboBoxMaxCarsPerQueue.Location = new System.Drawing.Point(154, 154);
-            this.comboBoxMaxCarsPerQueue.Name = "comboBoxMaxCarsPerQueue";
-            this.comboBoxMaxCarsPerQueue.Size = new System.Drawing.Size(121, 24);
-            this.comboBoxMaxCarsPerQueue.TabIndex = 5;
-            this.comboBoxMaxCarsPerQueue.SelectedIndexChanged += new System.EventHandler(this.comboBoxMaxCarsPerQueue_SelectedIndexChanged);
+            this.comboBoxStepSize.FormattingEnabled = true;
+            this.comboBoxStepSize.Items.AddRange(new object[] {
+            "0.1",
+            "0.25",
+            "0.5",
+            "0.75",
+            "1.0"});
+            this.comboBoxStepSize.Location = new System.Drawing.Point(154, 127);
+            this.comboBoxStepSize.Name = "comboBoxStepSize";
+            this.comboBoxStepSize.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxStepSize.TabIndex = 5;
+            this.comboBoxStepSize.SelectedIndexChanged += new System.EventHandler(this.comboBoxMaxStep_SelectedIndexChanged);
             // 
             // groupBox2
             // 
@@ -480,7 +482,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox comboBoxOrganismsPerGen;
         private System.Windows.Forms.ComboBox comboBoxGenerations;
-        private System.Windows.Forms.ComboBox comboBoxMaxCarsPerQueue;
+        private System.Windows.Forms.ComboBox comboBoxStepSize;
         private System.Windows.Forms.ComboBox comboBoxSimulationSpeed;
         private System.Windows.Forms.ComboBox comboBoxMutationProb;
         private System.Windows.Forms.ComboBox comboBoxCarAcceleration;
