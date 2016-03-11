@@ -14,24 +14,24 @@ namespace ANN_Traffic_Library
         // this is a 4-5-1 neural network
          
         // input layer
-        private float[] _iNeurons = new float[4];
-        private float[,] _iWeights = new float[4,5];
+        private double[] _iNeurons = new double[4];
+        private double[,] _iWeights = new double[4, 5];
 
         // hidden layer
-        private float[] _hNeurons = new float[5];
-        private float[] _hBiases = new float[5];
-        private float[] _hWeights = new float[5];
+        private double[] _hNeurons = new double[5];
+        private double[] _hBiases = new double[5];
+        private double[] _hWeights = new double[5];
 
         // output layer
-        private float _oNeuron;
-        private float _oBias;
+        private double _oNeuron;
+        private double _oBias;
 
         private Direction _outDirection; // what the neural net returns
 
         /// <summary>
         /// Take in the weights of the neural network.
         /// </summary>
-        public NeuralNetwork(float[] weights)
+        public NeuralNetwork(double[] weights)
         {
             _iWeights[0,0] = weights[0];
             _iWeights[0,1] = weights[1];
@@ -76,9 +76,9 @@ namespace ANN_Traffic_Library
         /// <summary>
         /// The function to keep each neuron within a certain range.
         /// </summary>
-        private float ActivationFunction(float inVal)
+        private double ActivationFunction(double inVal)
         {
-            return (float)(2 / (1 + Math.Pow(Math.E, -2 * inVal)));
+            return (1.0 / (1.0 + Math.Pow(Math.E, -2.0 * inVal)));
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace ANN_Traffic_Library
         /// <param name="upCar"></param>
         /// <param name="downCar"></param>
         /// <returns></returns>
-        public Axis ExecuteNeuronNetwork(float leftCar, float rightCar, float upCar, float downCar)
+        public Axis ExecuteNeuralNetwork(double leftCar, double rightCar, double upCar, double downCar)
         {
             // input neuron values
             _iNeurons[0] = leftCar;

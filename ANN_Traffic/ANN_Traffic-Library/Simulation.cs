@@ -67,8 +67,8 @@ namespace ANN_Traffic_Library
         private const int UPDATES_PER_ORGANISM = 200; // the amount of updates to do before using next organism 
 
         // stuff for neural net
-        private float _mutationProb;
-        private float _stepSize;
+        private double _mutationProb;
+        private double _stepSize;
 
         /// <summary>
         /// Tells when the simulation is over.
@@ -91,7 +91,12 @@ namespace ANN_Traffic_Library
 
         private List<Car> finishedCars;
 
-        public Simulation(Rectangle drawArea, int gens, int orgsPerGen, int carSpeed, int carAccel, int carSpawnRate, float mutationProb, float stepSize)
+        private const int _numGenes = 31; // amount of genes
+        private double[,] _annGenes; // the genes for neural networks
+        private TrafficController _trafficController; // what determines when to change light at intersections
+        private double[] _tmpDoubleArr;
+
+        public Simulation(Rectangle drawArea, int gens, int orgsPerGen, int carSpeed, int carAccel, int carSpawnRate, double mutationProb, double stepSize)
         {
             IsReady = true;
             _drawArea = drawArea;
@@ -131,6 +136,25 @@ namespace ANN_Traffic_Library
             _carDownSpawnY = 2 * (drawArea.Height / 3) + _carWidth;
 
             _rand = new Random();
+
+            _annGenes = new double[_generations, _numGenes];
+
+            // fill initial generation of genes
+            for (int i = 0; i < _organismsPerGeneration; i++ )
+            {
+                for (int j = 0; j < _numGenes; j++)
+                {
+                    _annGenes[i, j] = (_rand.NextDouble() * 8) - 4; // rand value between 0 and 1
+                }
+            }
+
+            _tmpDoubleArr = new double[_numGenes];
+            // get first genes for traffic controller
+            for (int i = 0; i < _numGenes; i++ )
+            {
+                _tmpDoubleArr[i] = _annGenes[0, i];
+            }
+            _trafficController = new TrafficController(new NeuralNetwork(_tmpDoubleArr));
         }
 
         /// <summary>
@@ -149,6 +173,12 @@ namespace ANN_Traffic_Library
             }
 
             // get what axis to go to from TrafficController
+            // log(x + 1) * 144.26951
+            // log to make smaller values more significant
+            _goAxis = _trafficController.DetermineAxis(Math.Log10(35 * ((double)_leftCars.Count / (double)100) + 1) * 0.64255,
+                Math.Log10(35 * ((double)_rightCars.Count / (double)100) + 1) * 0.64255,
+                Math.Log10(35 * ((double)_upCars.Count / 100) + 1) * 0.64255,
+                Math.Log10(35 * ((double)_downCars.Count / (double)100) + 1) * 0.64255);
 
             // spawn new car
             if(_updatesSinceOrganismStart % 5 == 0){
@@ -391,21 +421,78 @@ namespace ANN_Traffic_Library
             }
 
             // add / subtract points in TrafficController
+            foreach (Car car in _leftCars)
+            {
+                if(_goAxis == Axis.Horizontal)
+                {
+                    _trafficController.Points++;
+                }
+                else
+                {
+                    _trafficController.Points--;
+                }
+            }
+            foreach (Car car in _rightCars)
+            {
+                if (_goAxis == Axis.Horizontal)
+                {
+                    _trafficController.Points++;
+                }
+                else
+                {
+                    _trafficController.Points--;
+                }
+            }
+            foreach (Car car in _upCars)
+            {
+                if (_goAxis == Axis.Horizontal)
+                {
+                    _trafficController.Points--;
+                }
+                else
+                {
+                    _trafficController.Points++;
+                }
+            }
+            foreach (Car car in _downCars)
+            {
+                if (_goAxis == Axis.Horizontal)
+                {
+                    _trafficController.Points--;
+                }
+                else
+                {
+                    _trafficController.Points++;
+                }
+            }
 
             // see if need new TrafficController
             if (_updatesSinceOrganismStart >= UPDATES_PER_ORGANISM)
             {
+                // remove all cars
+                _leftCars = new List<Car>();
+                _rightCars = new List<Car>();
+                _upCars = new List<Car>();
+                _downCars = new List<Car>();
+
+
                 // get score for current organism
                 // see if score is better than best score
-                _updatesSinceOrganismStart = 0;
+                if(_trafficController.Points > BestFitness)
+                {
+                    BestFitness = _trafficController.Points;
+                }
 
+                _updatesSinceOrganismStart = 0;
                 CurrentOrganismInGeneration++;
                 // set new TrafficController or get new generation
                 if (CurrentOrganismInGeneration == _organismsPerGeneration)
                 {
-                    // spawn new generation
+                    // new generation
                     CurrentOrganismInGeneration = 0;
                     CurrentGeneration++;
+
+                    // do genetic algorithm stuff
 
                     if(CurrentGeneration == _generations)
                     {
@@ -417,7 +504,12 @@ namespace ANN_Traffic_Library
                     }
                 }
 
-                // use proper element in list of TrafficControllers
+                // spawn new traffic controller
+                for (int i = 0; i < _numGenes; i++)
+                {
+                    _tmpDoubleArr[i] = _annGenes[CurrentOrganismInGeneration, i];
+                }
+                _trafficController = new TrafficController(new NeuralNetwork(_tmpDoubleArr));
             }
 
             IsReady = true;

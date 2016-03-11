@@ -316,7 +316,9 @@
             "0.25",
             "0.5",
             "0.75",
-            "1.0"});
+            "1.0",
+            "1.5",
+            "2.0"});
             this.comboBoxStepSize.Location = new System.Drawing.Point(154, 127);
             this.comboBoxStepSize.Name = "comboBoxStepSize";
             this.comboBoxStepSize.Size = new System.Drawing.Size(121, 24);

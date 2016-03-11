@@ -18,8 +18,8 @@ namespace ANN_Traffic_Presentation
         private bool _isDraw = true; // determinces whether we will draw stuff
 
         private int _simSpeed = 100;
-        private float _mutationProb = 0.10f;
-        private float _maxStepSize = 0.1f;
+        private double _mutationProb = 0.10;
+        private double _maxStepSize = 0.1;
         private int _organismsPerGen = 10;
         private int _generations = 500;
         private int _carSpeed = 9;
@@ -72,7 +72,7 @@ namespace ANN_Traffic_Presentation
                             {
                                 _bestFitness = _simulation.BestFitness;
                                 labelValBestFitness.Text = _bestFitness.ToString();
-                                labelValAchieved.Text = _bestFitness.ToString();
+                                labelValAchieved.Text = _simulation.CurrentGeneration.ToString();
                             }
                         }
                     );
@@ -96,7 +96,7 @@ namespace ANN_Traffic_Presentation
             {
                 _bestFitness = _simulation.BestFitness;
                 labelValBestFitness.Text = _bestFitness.ToString();
-                labelValAchieved.Text = _bestFitness.ToString();
+                labelValAchieved.Text = _simulation.CurrentGeneration.ToString();
             }
 
             //panelANNDrawArea.Invalidate(); // updates the ann visualization
