@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace ANN_Traffic_Library
 {
     public enum Direction { Up, Down, Left, Right}
+    public enum Axis { Horizontal, Vertical}
     public class Utils
     {
     }

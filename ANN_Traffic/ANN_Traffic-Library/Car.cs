@@ -22,7 +22,7 @@ namespace ANN_Traffic_Library
         // direction to move to
         private Direction _direction;
 
-        private Rectangle _carRect;
+        public Rectangle _carRect;
         private Rectangle _drawRect;
 
         private int _speed;
@@ -84,7 +84,7 @@ namespace ANN_Traffic_Library
         /// <param name="graphics"></param>
         public void Draw(Graphics graphics)
         {
-            throw new NotImplementedException();
+            graphics.FillRectangle(Brushes.Yellow, _carRect);
         }
     }
 }

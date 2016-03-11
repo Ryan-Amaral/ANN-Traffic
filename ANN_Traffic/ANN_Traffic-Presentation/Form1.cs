@@ -50,7 +50,7 @@ namespace ANN_Traffic_Presentation
                 MethodInvoker invoker = new MethodInvoker(
                         delegate
                         {
-                            if (_simulation.CurrentGeneration != _curGen)
+                            if (_simulation.CurrentGeneration != _curGen && _simulation.CurrentGeneration <= _generations)
                             {
                                 _curGen = _simulation.CurrentGeneration;
                                 labelValCurrentGen.Text = _curGen.ToString();

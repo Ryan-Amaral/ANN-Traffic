@@ -52,12 +52,19 @@ namespace ANN_Traffic_Library
 
 
         private Scenery _scenery; // The scenery of the visual area
-        private List<Car> _cars; // the cars
+        // the cars
+        private List<Car> _leftCars;
+        private List<Car> _rightCars;
+        private List<Car> _upCars;
+        private List<Car> _downCars;
+
+        private int _carWidth = 10;
+        private int _carBuffer = 3;
 
         private Rectangle _drawArea;// The full area to draw everything to
 
         private int _updatesSinceOrganismStart; // the amount of updates since the organism started
-        private const int UPDATES_PER_ORGANISM = 1000; // the amount of updates to do before using next organism 
+        private const int UPDATES_PER_ORGANISM = 200; // the amount of updates to do before using next organism 
 
         // stuff for neural net
         private float _mutationProb;
@@ -68,6 +75,21 @@ namespace ANN_Traffic_Library
         /// </summary>
         public bool NeedStop { get; set; }
 
+        private Axis _goAxis; // the direction that the cars can go in currently
+
+        private Random _rand;
+        private int _carRand;
+
+        private int _carLeftSpawnX;
+        private int _carLeftSpawnY;
+        private int _carRightSpawnX;
+        private int _carRightSpawnY;
+        private int _carUpSpawnX;
+        private int _carUpSpawnY;
+        private int _carDownSpawnX;
+        private int _carDownSpawnY;
+
+        private List<Car> finishedCars;
 
         public Simulation(Rectangle drawArea, int gens, int orgsPerGen, int carSpeed, int carAccel, int carSpawnRate, float mutationProb, float stepSize)
         {
@@ -91,6 +113,24 @@ namespace ANN_Traffic_Library
 
             // set to extremely low
             BestFitness = -9999999;
+
+            _goAxis = Axis.Vertical;
+
+            _leftCars = new List<Car>();
+            _rightCars = new List<Car>();
+            _upCars = new List<Car>();
+            _downCars = new List<Car>();
+
+            _carLeftSpawnX = (drawArea.Width / 3) - (_carWidth * 2);
+            _carLeftSpawnY = (drawArea.Height / 2) + 5;
+            _carRightSpawnX = 2 * (drawArea.Width / 3) + _carWidth;
+            _carRightSpawnY = (drawArea.Height / 3) + 5;
+            _carUpSpawnX = (drawArea.Width / 3) + 5;
+            _carUpSpawnY = (drawArea.Height / 3) - (_carWidth * 2);
+            _carDownSpawnX = (drawArea.Width / 2) + 5;
+            _carDownSpawnY = 2 * (drawArea.Height / 3) + _carWidth;
+
+            _rand = new Random();
         }
 
         /// <summary>
@@ -108,8 +148,249 @@ namespace ANN_Traffic_Library
                 _scenery.Draw(graphics);
             }
 
-            // get score
+            // get what axis to go to from TrafficController
 
+            // spawn new car
+            if(_updatesSinceOrganismStart % 5 == 0){
+                _carRand = _rand.Next(4);
+                if (_carRand < 1 && _leftCars.Count < 100)
+                {
+                    // spawn left
+                    if (_leftCars.Count == 0)
+                    {
+                        _leftCars.Add(new Car(
+                            _drawArea, 
+                            _carLeftSpawnX,
+                            _carLeftSpawnY,
+                            _carWidth,
+                            _carWidth,
+                            Direction.Right,
+                            _drawArea.Width / 3,
+                            _carSpeed
+                            ));
+                    }
+                    else
+                    {
+                        _leftCars.Add(new Car(
+                            _drawArea, 
+                            _leftCars[_leftCars.Count - 1]._carRect.X - _carWidth - _carBuffer,
+                            _carLeftSpawnY,
+                            _carWidth,
+                            _carWidth,
+                            Direction.Right,
+                            _drawArea.Width / 3,
+                            _carSpeed
+                            ));
+                    }
+                }
+                else if (_carRand < 2 && _rightCars.Count < 100)
+                {
+                    // spawn right
+                    if (_rightCars.Count == 0)
+                    {
+                        _rightCars.Add(new Car(
+                            _drawArea,
+                            _carRightSpawnX,
+                            _carRightSpawnY,
+                            _carWidth,
+                            _carWidth,
+                            Direction.Left,
+                            (_drawArea.Width / 3) * 2,
+                            _carSpeed
+                            ));
+                    }
+                    else
+                    {
+                        _rightCars.Add(new Car(
+                            _drawArea,
+                            _rightCars[_rightCars.Count - 1]._carRect.X + _carWidth + _carBuffer,
+                            _carRightSpawnY,
+                            _carWidth,
+                            _carWidth,
+                            Direction.Left,
+                            (_drawArea.Width / 3) * 2,
+                            _carSpeed
+                            ));
+                    }
+                }
+                else if (_carRand < 3 && _upCars.Count < 100)
+                {
+                    // spawn up
+                    if (_upCars.Count == 0)
+                    {
+                        _upCars.Add(new Car(
+                            _drawArea,
+                            _carUpSpawnX,
+                            _carUpSpawnY,
+                            _carWidth,
+                            _carWidth,
+                            Direction.Down,
+                            _drawArea.Height / 3,
+                            _carSpeed
+                            ));
+                    }
+                    else
+                    {
+                        _upCars.Add(new Car(
+                            _drawArea,
+                            _carUpSpawnX,
+                            _upCars[_upCars.Count - 1]._carRect.Y - _carWidth - _carBuffer,
+                            _carWidth,
+                            _carWidth,
+                            Direction.Down,
+                            _drawArea.Height / 3,
+                            _carSpeed
+                            ));
+                    }
+                }
+                else if (_carRand < 4 && _downCars.Count < 100)
+                {
+                    // spawn down
+                    if (_downCars.Count == 0)
+                    {
+                        _downCars.Add(new Car(
+                            _drawArea,
+                            _carDownSpawnX,
+                            _carDownSpawnY,
+                            _carWidth,
+                            _carWidth,
+                            Direction.Up,
+                            (_drawArea.Height / 3) * 2,
+                            _carSpeed
+                            ));
+                    }
+                    else
+                    {
+                        _downCars.Add(new Car(
+                            _drawArea,
+                            _carDownSpawnX,
+                            _downCars[_downCars.Count - 1]._carRect.Y + _carWidth + _carBuffer,
+                            _carWidth,
+                            _carWidth,
+                            Direction.Up,
+                            (_drawArea.Height / 3) * 2,
+                            _carSpeed
+                            ));
+                    }
+                }
+            }
+
+            // move cars
+            if(_goAxis == Axis.Horizontal)
+            {
+                finishedCars = new List<Car>();
+                foreach (Car car in _leftCars)
+                {
+                    car.Move();
+                    if(isDraw)
+                    {
+                        car.Draw(graphics);
+                    }
+                    if(car.IsFinished)
+                    {
+                        finishedCars.Add(car);
+                    }
+                }
+                // remove done cars
+                foreach (Car delCar in finishedCars)
+                {
+                    _leftCars.Remove(delCar);
+                }
+
+                finishedCars = new List<Car>();
+                foreach (Car car in _rightCars)
+                {
+                    car.Move();
+                    if (isDraw)
+                    {
+                        car.Draw(graphics);
+                    }
+                    if (car.IsFinished)
+                    {
+                        finishedCars.Add(car);
+                    }
+                }
+                // remove done cars
+                foreach (Car delCar in finishedCars)
+                {
+                    _rightCars.Remove(delCar);
+                }
+
+
+                // just draw others
+                foreach (Car car in _upCars)
+                {
+                    if (isDraw)
+                    {
+                        car.Draw(graphics);
+                    }
+                }
+                foreach (Car car in _downCars)
+                {
+                    if (isDraw)
+                    {
+                        car.Draw(graphics);
+                    }
+                }
+            }
+            else
+            {
+                finishedCars = new List<Car>();
+                foreach (Car car in _upCars)
+                {
+                    car.Move();
+                    if (isDraw)
+                    {
+                        car.Draw(graphics);
+                    }
+                    if (car.IsFinished)
+                    {
+                        finishedCars.Add(car);
+                    }
+                }
+                // remove done cars
+                foreach (Car delCar in finishedCars)
+                {
+                    _upCars.Remove(delCar);
+                }
+
+                finishedCars = new List<Car>();
+                foreach (Car car in _downCars)
+                {
+                    car.Move();
+                    if (isDraw)
+                    {
+                        car.Draw(graphics);
+                    }
+                    if (car.IsFinished)
+                    {
+                        finishedCars.Add(car);
+                    }
+                }
+                // remove done cars
+                foreach (Car delCar in finishedCars)
+                {
+                    _downCars.Remove(delCar);
+                }
+
+                // just draw others
+                foreach (Car car in _leftCars)
+                {
+                    if (isDraw)
+                    {
+                        car.Draw(graphics);
+                    }
+                }
+                foreach (Car car in _rightCars)
+                {
+                    if (isDraw)
+                    {
+                        car.Draw(graphics);
+                    }
+                }
+            }
+
+            // add / subtract points in TrafficController
 
             // see if need new TrafficController
             if (_updatesSinceOrganismStart >= UPDATES_PER_ORGANISM)
@@ -151,7 +432,7 @@ namespace ANN_Traffic_Library
             {
                 Update(false, null);
 
-                if (Updated != null && _updatesSinceOrganismStart % 800 == 0)
+                if (Updated != null && _updatesSinceOrganismStart % 100 == 0)
                 {
                     Updated();
                 }
