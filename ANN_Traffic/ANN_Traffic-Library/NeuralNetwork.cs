@@ -14,17 +14,14 @@ namespace ANN_Traffic_Library
         // this is a 4-5-1 neural network
          
         // input layer
-        public double[] _iNeurons = new double[4];
-        public double[,] _iWeights = new double[4, 5];
+        public double[] INeurons = new double[4];
+        public double[] IWeights = new double[4];
 
-        // hidden layer
-        public double[] _hNeurons = new double[5];
-        public double[] _hBiases = new double[5];
-        public double[] _hWeights = new double[5];
+        // no hidden layer
 
         // output layer
-        public double _oNeuron;
-        public double _oBias;
+        public double ONeuron;
+        public double OBias;
 
         public Axis _outDirection; // what the neural net returns
 
@@ -33,44 +30,14 @@ namespace ANN_Traffic_Library
         /// </summary>
         public NeuralNetwork(double[] weights)
         {
-            _iWeights[0,0] = weights[0];
-            _iWeights[0,1] = weights[1];
-            _iWeights[0,2] = weights[2];
-            _iWeights[0,3] = weights[3];
-            _iWeights[0,4] = weights[4];
-            _iWeights[1,0] = weights[5];
-            _iWeights[1,1] = weights[6];
-            _iWeights[1,2] = weights[7];
-            _iWeights[1,3] = weights[8];
-            _iWeights[1,4] = weights[9];
-            _iWeights[2,0] = weights[10];
-            _iWeights[2,1] = weights[11];
-            _iWeights[2,2] = weights[12];
-            _iWeights[2,3] = weights[13];
-            _iWeights[2,4] = weights[14];
-            _iWeights[3,0] = weights[15];
-            _iWeights[3,1] = weights[16];
-            _iWeights[3,2] = weights[17];
-            _iWeights[3,3] = weights[18];
-            _iWeights[3,4] = weights[19];
-            _hWeights[0] = weights[20];
-            _hWeights[1] = weights[21];
-            _hWeights[2] = weights[22];
-            _hWeights[3] = weights[23];
-            _hWeights[4] = weights[24];
-            _hBiases[0] = weights[25];
-            _hBiases[1] = weights[26];
-            _hBiases[2] = weights[27];
-            _hBiases[3] = weights[28];
-            _hBiases[4] = weights[29];
-            _oBias = weights[30];
+            IWeights[0] = weights[0];
+            IWeights[1] = weights[1];
+            IWeights[2] = weights[2];
+            IWeights[3] = weights[3];
+            OBias = weights[4];
 
             // set initial neuron values
-            for (int i = 0; i < 5; i++ )
-            {
-                _hNeurons[i] = 0f;
-            }
-            _oNeuron = 0;
+            ONeuron = 0;
         }
 
         /// <summary>
@@ -92,35 +59,22 @@ namespace ANN_Traffic_Library
         public Axis ExecuteNeuralNetwork(double leftCar, double rightCar, double upCar, double downCar)
         {
             // input neuron values
-            _iNeurons[0] = leftCar;
-            _iNeurons[1] = rightCar;
-            _iNeurons[2] = upCar;
-            _iNeurons[3] = downCar;
-
-            // get values for output neurons
-            for (int i = 0; i < 5; i++ )
-            {
-                _hNeurons[i] = 0f;
-                for (int j = 0; j < 4; j++)
-                {
-                    // hidden neuron i += input neuron j * input weight to hidden neuron i of neuron j
-                    _hNeurons[i] += _iNeurons[j] * _iWeights[j, i];
-                }
-                _hNeurons[i] += _hBiases[i]; // add bias
-                _hNeurons[i] = ActivationFunction(_hNeurons[i]); // apply activation function
-            }
+            INeurons[0] = leftCar;
+            INeurons[1] = rightCar;
+            INeurons[2] = upCar;
+            INeurons[3] = downCar;
 
             // get value for output
-            _oNeuron = 0f;
-            for (int i = 0; i < 5; i++)
+            ONeuron = 0f;
+            for (int i = 0; i < 4; i++)
             {
                 // output neuron += each hidden layer neuron times it's weight
-                _oNeuron += _hNeurons[i] * _hWeights[i];
+                ONeuron += INeurons[i] * IWeights[i];
             }
-            _oNeuron += _oBias; // add bias
-            _oNeuron = ActivationFunction(_oNeuron); // apply activation function
+            ONeuron += OBias; // add bias
+            ONeuron = ActivationFunction(ONeuron); // apply activation function
 
-            if(_oNeuron > 0.5f)
+            if (ONeuron > 0.5f)
             {
                 _outDirection = Axis.Horizontal;
             }

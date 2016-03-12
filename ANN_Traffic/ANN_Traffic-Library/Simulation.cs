@@ -91,9 +91,9 @@ namespace ANN_Traffic_Library
 
         private List<Car> finishedCars;
 
-        private const int _numGenes = 31; // amount of genes
+        private const int _numGenes = 5; // amount of genes
         private double[,] _annGenes; // the genes for neural networks
-        public TrafficController _trafficController; // what determines when to change light at intersections
+        public TrafficController TrafficController; // what determines when to change light at intersections
         private double[] _tmpDoubleArr;
 
         public Simulation(Rectangle drawArea, int gens, int orgsPerGen, int carSpeed, int carAccel, int carSpawnRate, double mutationProb, double stepSize)
@@ -142,14 +142,11 @@ namespace ANN_Traffic_Library
             // fill initial generation of genes
             for (int i = 0; i < _organismsPerGeneration; i++ )
             {
-                for (int j = 0; j < 25; j++)
+                for (int j = 0; j < 4; j++)
                 {
                     _annGenes[i, j] = (_rand.NextDouble() * 2) - 1; // rand value between -1 and 1
                 }
-                for (int j = 25; j < 31; j++)
-                {
-                    _annGenes[i, j] = (_rand.NextDouble() * 8) - 4; // rand value between -2 and 2
-                }
+                _annGenes[i, 4] = (_rand.NextDouble() * 8) - 4; // rand value between -4 and 4
             }
 
             _tmpDoubleArr = new double[_numGenes];
@@ -158,7 +155,7 @@ namespace ANN_Traffic_Library
             {
                 _tmpDoubleArr[i] = _annGenes[0, i];
             }
-            _trafficController = new TrafficController(new NeuralNetwork(_tmpDoubleArr));
+            TrafficController = new TrafficController(new NeuralNetwork(_tmpDoubleArr));
         }
 
         /// <summary>
@@ -179,7 +176,7 @@ namespace ANN_Traffic_Library
             // get what axis to go to from TrafficController
             // log(x + 1) * 144.26951
             // log to make smaller values more significant
-            _goAxis = _trafficController.DetermineAxis(
+            _goAxis = TrafficController.DetermineAxis(
                 Math.Log10(35 * ((double)_leftCars.Count / (double)40) + 1) * 0.64255,
                 Math.Log10(35 * ((double)_rightCars.Count / (double)40) + 1) * 0.64255,
                 Math.Log10(35 * ((double)_upCars.Count / (double)40) + 1) * 0.64255,
@@ -208,7 +205,7 @@ namespace ANN_Traffic_Library
                     {
                         _leftCars.Add(new Car(
                             _drawArea, 
-                            _leftCars[_leftCars.Count - 1]._carRect.X - _carWidth - _carBuffer,
+                            _leftCars[_leftCars.Count - 1].CarRect.X - _carWidth - _carBuffer,
                             _carLeftSpawnY,
                             _carWidth,
                             _carWidth,
@@ -238,7 +235,7 @@ namespace ANN_Traffic_Library
                     {
                         _rightCars.Add(new Car(
                             _drawArea,
-                            _rightCars[_rightCars.Count - 1]._carRect.X + _carWidth + _carBuffer,
+                            _rightCars[_rightCars.Count - 1].CarRect.X + _carWidth + _carBuffer,
                             _carRightSpawnY,
                             _carWidth,
                             _carWidth,
@@ -269,7 +266,7 @@ namespace ANN_Traffic_Library
                         _upCars.Add(new Car(
                             _drawArea,
                             _carUpSpawnX,
-                            _upCars[_upCars.Count - 1]._carRect.Y - _carWidth - _carBuffer,
+                            _upCars[_upCars.Count - 1].CarRect.Y - _carWidth - _carBuffer,
                             _carWidth,
                             _carWidth,
                             Direction.Down,
@@ -299,7 +296,7 @@ namespace ANN_Traffic_Library
                         _downCars.Add(new Car(
                             _drawArea,
                             _carDownSpawnX,
-                            _downCars[_downCars.Count - 1]._carRect.Y + _carWidth + _carBuffer,
+                            _downCars[_downCars.Count - 1].CarRect.Y + _carWidth + _carBuffer,
                             _carWidth,
                             _carWidth,
                             Direction.Up,
@@ -324,7 +321,7 @@ namespace ANN_Traffic_Library
                     if(car.IsFinished)
                     {
                         finishedCars.Add(car);
-                        _trafficController.Points++;
+                        TrafficController.Points++;
                     }
                 }
                 // remove done cars
@@ -344,7 +341,7 @@ namespace ANN_Traffic_Library
                     if (car.IsFinished)
                     {
                         finishedCars.Add(car);
-                        _trafficController.Points++;
+                        TrafficController.Points++;
                     }
                 }
                 // remove done cars
@@ -383,7 +380,7 @@ namespace ANN_Traffic_Library
                     if (car.IsFinished)
                     {
                         finishedCars.Add(car);
-                        _trafficController.Points++;
+                        TrafficController.Points++;
                     }
                 }
                 // remove done cars
@@ -403,7 +400,7 @@ namespace ANN_Traffic_Library
                     if (car.IsFinished)
                     {
                         finishedCars.Add(car);
-                        _trafficController.Points++;
+                        TrafficController.Points++;
                     }
                 }
                 // remove done cars
@@ -434,44 +431,44 @@ namespace ANN_Traffic_Library
             {
                 if(_goAxis == Axis.Horizontal)
                 {
-                    _trafficController.Points++;
+                    TrafficController.Points++;
                 }
                 else
                 {
-                    _trafficController.Points--;
+                    TrafficController.Points--;
                 }
             }
             foreach (Car car in _rightCars)
             {
                 if (_goAxis == Axis.Horizontal)
                 {
-                    _trafficController.Points++;
+                    TrafficController.Points++;
                 }
                 else
                 {
-                    _trafficController.Points--;
+                    TrafficController.Points--;
                 }
             }
             foreach (Car car in _upCars)
             {
                 if (_goAxis == Axis.Horizontal)
                 {
-                    _trafficController.Points--;
+                    TrafficController.Points--;
                 }
                 else
                 {
-                    _trafficController.Points++;
+                    TrafficController.Points++;
                 }
             }
             foreach (Car car in _downCars)
             {
                 if (_goAxis == Axis.Horizontal)
                 {
-                    _trafficController.Points--;
+                    TrafficController.Points--;
                 }
                 else
                 {
-                    _trafficController.Points++;
+                    TrafficController.Points++;
                 }
             }
 
@@ -487,9 +484,9 @@ namespace ANN_Traffic_Library
 
                 // get score for current organism
                 // see if score is better than best score
-                if(_trafficController.Points > BestFitness)
+                if(TrafficController.Points > BestFitness)
                 {
-                    BestFitness = _trafficController.Points;
+                    BestFitness = TrafficController.Points;
                 }
 
                 _updatesSinceOrganismStart = 0;
@@ -518,7 +515,7 @@ namespace ANN_Traffic_Library
                 {
                     _tmpDoubleArr[i] = _annGenes[CurrentOrganismInGeneration, i];
                 }
-                _trafficController = new TrafficController(new NeuralNetwork(_tmpDoubleArr));
+                TrafficController = new TrafficController(new NeuralNetwork(_tmpDoubleArr));
             }
 
             IsReady = true;

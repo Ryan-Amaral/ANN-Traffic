@@ -307,9 +307,9 @@ namespace ANN_Traffic_Presentation
         {
             // just draw it here
             _curGraphics = panelANNDrawArea.CreateGraphics();
-            if (_simulation._trafficController != null && _isDraw)
+            if (_simulation.TrafficController != null && _isDraw)
             {
-                _annDrawer.DrawNeuralNetwork(_curGraphics, _simulation._trafficController.NeuralNetwork);
+                _annDrawer.DrawNeuralNetwork(_curGraphics, _simulation.TrafficController.NeuralNetwork);
             }
         }
 

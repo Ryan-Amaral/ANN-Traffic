@@ -22,7 +22,7 @@ namespace ANN_Traffic_Library
         // direction to move to
         private Direction _direction;
 
-        public Rectangle _carRect;
+        public Rectangle CarRect;
         private Rectangle _drawRect;
 
         private int _speed;
@@ -33,7 +33,7 @@ namespace ANN_Traffic_Library
         /// <param name="drawArea"></param>
         public Car(Rectangle drawRect, int x, int y, int width, int height, Direction direction, int finishLinePos, int speed)
         {
-            _carRect = new Rectangle(x, y, width, height);
+            CarRect = new Rectangle(x, y, width, height);
             _drawRect = drawRect;
             _direction = direction;
             _finishLinePos = finishLinePos;
@@ -48,29 +48,29 @@ namespace ANN_Traffic_Library
             switch (_direction)
             {
                 case Direction.Up:
-                    _carRect.Y -= _speed;
-                    if (_carRect.Y <= _finishLinePos)
+                    CarRect.Y -= _speed;
+                    if (CarRect.Y <= _finishLinePos)
                     {
                         IsFinished = true;
                     }
                     break;
                 case Direction.Down:
-                    _carRect.Y += _speed;
-                    if (_carRect.Y + _height >= _finishLinePos)
+                    CarRect.Y += _speed;
+                    if (CarRect.Y + _height >= _finishLinePos)
                     {
                         IsFinished = true;
                     }
                     break;
                 case Direction.Left:
-                    _carRect.X -= _speed;
-                    if (_carRect.X <= _finishLinePos)
+                    CarRect.X -= _speed;
+                    if (CarRect.X <= _finishLinePos)
                     {
                         IsFinished = true;
                     }
                     break;
                 case Direction.Right:
-                    _carRect.X += _speed;
-                    if (_carRect.X + _width >= _finishLinePos)
+                    CarRect.X += _speed;
+                    if (CarRect.X + _width >= _finishLinePos)
                     {
                         IsFinished = true;
                     }
@@ -84,7 +84,7 @@ namespace ANN_Traffic_Library
         /// <param name="graphics"></param>
         public void Draw(Graphics graphics)
         {
-            graphics.FillRectangle(Brushes.Yellow, _carRect);
+            graphics.FillRectangle(Brushes.Yellow, CarRect);
         }
     }
 }
