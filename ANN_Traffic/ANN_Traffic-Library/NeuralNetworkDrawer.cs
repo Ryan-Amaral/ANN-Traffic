@@ -98,7 +98,7 @@ namespace ANN_Traffic_Library
 
             // say what axis is currently moving
             _axis = (neuralNetwork.OutDirection == Axis.Horizontal) ? "Horizontal" : "Vertical";
-            graphics.DrawString("Moving Axis: " + _axis, SystemFonts.DefaultFont, Brushes.Black, _axisPoint);
+            graphics.DrawString("Moving Axis: " + _axis, SystemFonts.DefaultFont, Brushes.Black, _axisPoint);//
         }
     }
 }
