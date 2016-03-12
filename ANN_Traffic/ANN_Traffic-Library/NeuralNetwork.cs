@@ -23,7 +23,7 @@ namespace ANN_Traffic_Library
         public double ONeuron;
         public double OBias;
 
-        public Axis _outDirection; // what the neural net returns
+        public Axis OutDirection; // what the neural net returns
 
         /// <summary>
         /// Take in the weights of the neural network.
@@ -76,14 +76,14 @@ namespace ANN_Traffic_Library
 
             if (ONeuron > 0.5f)
             {
-                _outDirection = Axis.Horizontal;
+                OutDirection = Axis.Horizontal;
             }
             else
             {
-                _outDirection = Axis.Vertical;
+                OutDirection = Axis.Vertical;
             }
 
-            return _outDirection;
+            return OutDirection;
         }
     }
 }

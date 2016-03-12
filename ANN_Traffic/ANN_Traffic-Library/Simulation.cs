@@ -183,9 +183,10 @@ namespace ANN_Traffic_Library
                 Math.Log10(35 * ((double)_downCars.Count / (double)40) + 1) * 0.64255);
 
             // spawn new car
-            if(_updatesSinceOrganismStart % 5 == 0){
+            if(_updatesSinceOrganismStart % _carSpawnRate == 0){
+                // equal chance to sqawn on each side
                 _carRand = _rand.Next(4);
-                if (_carRand < 1 && _leftCars.Count < 100)
+                if (_carRand < 1 && _leftCars.Count < 40)
                 {
                     // spawn left
                     if (_leftCars.Count == 0)
@@ -215,7 +216,7 @@ namespace ANN_Traffic_Library
                             ));
                     }
                 }
-                else if (_carRand < 2 && _rightCars.Count < 100)
+                else if (_carRand < 2 && _rightCars.Count < 40)
                 {
                     // spawn right
                     if (_rightCars.Count == 0)
@@ -245,7 +246,7 @@ namespace ANN_Traffic_Library
                             ));
                     }
                 }
-                else if (_carRand < 3 && _upCars.Count < 100)
+                else if (_carRand < 3 && _upCars.Count < 40)
                 {
                     // spawn up
                     if (_upCars.Count == 0)
@@ -275,7 +276,7 @@ namespace ANN_Traffic_Library
                             ));
                     }
                 }
-                else if (_carRand < 4 && _downCars.Count < 100)
+                else if (_carRand < 4 && _downCars.Count < 40)
                 {
                     // spawn down
                     if (_downCars.Count == 0)

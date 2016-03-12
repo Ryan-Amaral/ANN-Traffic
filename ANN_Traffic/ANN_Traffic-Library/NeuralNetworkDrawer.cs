@@ -29,6 +29,9 @@ namespace ANN_Traffic_Library
 
         private Rectangle _drawArea;
 
+        private string _axis;
+        private Point _axisPoint;
+
         /// <summary>
         /// Create what is needed to draw.
         /// </summary>
@@ -51,6 +54,8 @@ namespace ANN_Traffic_Library
             _oNeuron1Point = new Point(_oNeuron1.X + (_oNeuron1.Width / 2), _oNeuron1.Y + (_oNeuron1.Height / 2));
 
             _weightPen = new Pen(Color.Wheat);
+
+            _axisPoint = new Point(_oNeuron1.X, _oNeuron1.Y + (_oNeuron1.Height * 2));
         }
 
         public void DrawNeuralNetwork(Graphics graphics, NeuralNetwork neuralNetwork)
@@ -90,6 +95,10 @@ namespace ANN_Traffic_Library
             graphics.DrawString(neuralNetwork.INeurons[2].ToString(), SystemFonts.DefaultFont, Brushes.Black, _iNeuron3.Location);
             graphics.DrawString(neuralNetwork.INeurons[3].ToString(), SystemFonts.DefaultFont, Brushes.Black, _iNeuron4.Location);
             graphics.DrawString(neuralNetwork.ONeuron.ToString(), SystemFonts.DefaultFont, Brushes.Black, _oNeuron1.Location);
+
+            // say what axis is currently moving
+            _axis = (neuralNetwork.OutDirection == Axis.Horizontal) ? "Horizontal" : "Vertical";
+            graphics.DrawString("Moving Axis: " + _axis, SystemFonts.DefaultFont, Brushes.Black, _axisPoint);
         }
     }
 }

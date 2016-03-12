@@ -150,6 +150,7 @@
             this.label3.Size = new System.Drawing.Size(116, 17);
             this.label3.TabIndex = 11;
             this.label3.Text = "Car Acceleration:";
+            this.label3.Visible = false;
             // 
             // groupBox1
             // 
@@ -261,6 +262,7 @@
             this.comboBoxCarAcceleration.Name = "comboBoxCarAcceleration";
             this.comboBoxCarAcceleration.Size = new System.Drawing.Size(121, 24);
             this.comboBoxCarAcceleration.TabIndex = 7;
+            this.comboBoxCarAcceleration.Visible = false;
             this.comboBoxCarAcceleration.SelectedIndexChanged += new System.EventHandler(this.comboBoxCarAcceleration_SelectedIndexChanged);
             // 
             // comboBoxCarSpeed

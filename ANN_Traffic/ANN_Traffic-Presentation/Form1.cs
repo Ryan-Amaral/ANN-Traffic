@@ -236,19 +236,19 @@ namespace ANN_Traffic_Presentation
             switch (comboBoxSimulationSpeed.SelectedIndex)
             {
                 case 0:
-                    _carSpawnRate = 100;
-                    break;
-                case 1:
-                    _carSpawnRate = 50;
-                    break;
-                case 2:
                     _carSpawnRate = 20;
                     break;
-                case 3:
+                case 1:
+                    _carSpawnRate = 15;
+                    break;
+                case 2:
                     _carSpawnRate = 10;
                     break;
-                case 4:
+                case 3:
                     _carSpawnRate = 5;
+                    break;
+                case 4:
+                    _carSpawnRate = 2;
                     break;
             }
         }
