@@ -33,6 +33,8 @@ namespace ANN_Traffic_Presentation
 
         Thread _asap;
 
+        private NeuralNetworkDrawer _annDrawer;
+
         public FormAnnTrafficMain()
         {
             InitializeComponent();
@@ -265,6 +267,9 @@ namespace ANN_Traffic_Presentation
             // don't really need to create here, just so initial draw can happen
             _simulation = new Simulation(panelTrafficDrawArea.DisplayRectangle,
                 _generations, _organismsPerGen, _carSpeed, _carAcceleration, _carSpawnRate, _mutationProb, _maxStepSize);
+
+            _annDrawer = new NeuralNetworkDrawer(panelANNDrawArea.ClientRectangle);
+            
         }
 
         private void timerSimulation_Tick(object sender, EventArgs e)
@@ -301,6 +306,11 @@ namespace ANN_Traffic_Presentation
         private void UpdateAnnVisual()
         {
             // just draw it here
+            _curGraphics = panelANNDrawArea.CreateGraphics();
+            if (_simulation._trafficController != null && _isDraw)
+            {
+                _annDrawer.DrawNeuralNetwork(_curGraphics, _simulation._trafficController.NeuralNetwork);
+            }
         }
 
         /// <summary>

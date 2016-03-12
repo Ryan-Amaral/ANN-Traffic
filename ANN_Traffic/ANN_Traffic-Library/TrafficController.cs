@@ -9,7 +9,7 @@ namespace ANN_Traffic_Library
     /// <summary>
     /// The entity that will be using a neural network to learn when is best to change flow of traffic.
     /// </summary>
-    class TrafficController
+    public class TrafficController
     {
         public int Points { get; set; }
         public NeuralNetwork NeuralNetwork { get; set; }

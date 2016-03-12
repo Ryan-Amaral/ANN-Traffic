@@ -9,24 +9,24 @@ namespace ANN_Traffic_Library
     /// <summary>
     /// The ANN to be used by traffic controller. (4-5-1)
     /// </summary>
-    class NeuralNetwork
+    public class NeuralNetwork
     {
         // this is a 4-5-1 neural network
          
         // input layer
-        private double[] _iNeurons = new double[4];
-        private double[,] _iWeights = new double[4, 5];
+        public double[] _iNeurons = new double[4];
+        public double[,] _iWeights = new double[4, 5];
 
         // hidden layer
-        private double[] _hNeurons = new double[5];
-        private double[] _hBiases = new double[5];
-        private double[] _hWeights = new double[5];
+        public double[] _hNeurons = new double[5];
+        public double[] _hBiases = new double[5];
+        public double[] _hWeights = new double[5];
 
         // output layer
-        private double _oNeuron;
-        private double _oBias;
+        public double _oNeuron;
+        public double _oBias;
 
-        private Direction _outDirection; // what the neural net returns
+        public Axis _outDirection; // what the neural net returns
 
         /// <summary>
         /// Take in the weights of the neural network.
@@ -53,16 +53,16 @@ namespace ANN_Traffic_Library
             _iWeights[3,2] = weights[17];
             _iWeights[3,3] = weights[18];
             _iWeights[3,4] = weights[19];
-            _hBiases[0] = weights[20];
-            _hBiases[1] = weights[21];
-            _hBiases[2] = weights[22];
-            _hBiases[3] = weights[23];
-            _hBiases[4] = weights[24];
-            _hWeights[0] = weights[25];
-            _hWeights[1] = weights[26];
-            _hWeights[2] = weights[27];
-            _hWeights[3] = weights[28];
-            _hWeights[4] = weights[29]; 
+            _hWeights[0] = weights[20];
+            _hWeights[1] = weights[21];
+            _hWeights[2] = weights[22];
+            _hWeights[3] = weights[23];
+            _hWeights[4] = weights[24];
+            _hBiases[0] = weights[25];
+            _hBiases[1] = weights[26];
+            _hBiases[2] = weights[27];
+            _hBiases[3] = weights[28];
+            _hBiases[4] = weights[29];
             _oBias = weights[30];
 
             // set initial neuron values
@@ -122,12 +122,14 @@ namespace ANN_Traffic_Library
 
             if(_oNeuron > 0.5f)
             {
-                return Axis.Horizontal;
+                _outDirection = Axis.Horizontal;
             }
             else
             {
-                return Axis.Vertical;
+                _outDirection = Axis.Vertical;
             }
+
+            return _outDirection;
         }
     }
 }

@@ -93,7 +93,7 @@ namespace ANN_Traffic_Library
 
         private const int _numGenes = 31; // amount of genes
         private double[,] _annGenes; // the genes for neural networks
-        private TrafficController _trafficController; // what determines when to change light at intersections
+        public TrafficController _trafficController; // what determines when to change light at intersections
         private double[] _tmpDoubleArr;
 
         public Simulation(Rectangle drawArea, int gens, int orgsPerGen, int carSpeed, int carAccel, int carSpawnRate, double mutationProb, double stepSize)
@@ -142,9 +142,13 @@ namespace ANN_Traffic_Library
             // fill initial generation of genes
             for (int i = 0; i < _organismsPerGeneration; i++ )
             {
-                for (int j = 0; j < _numGenes; j++)
+                for (int j = 0; j < 25; j++)
                 {
-                    _annGenes[i, j] = (_rand.NextDouble() * 8) - 4; // rand value between 0 and 1
+                    _annGenes[i, j] = (_rand.NextDouble() * 2) - 1; // rand value between -1 and 1
+                }
+                for (int j = 25; j < 31; j++)
+                {
+                    _annGenes[i, j] = (_rand.NextDouble() * 8) - 4; // rand value between -2 and 2
                 }
             }
 
@@ -175,10 +179,11 @@ namespace ANN_Traffic_Library
             // get what axis to go to from TrafficController
             // log(x + 1) * 144.26951
             // log to make smaller values more significant
-            _goAxis = _trafficController.DetermineAxis(Math.Log10(35 * ((double)_leftCars.Count / (double)100) + 1) * 0.64255,
-                Math.Log10(35 * ((double)_rightCars.Count / (double)100) + 1) * 0.64255,
-                Math.Log10(35 * ((double)_upCars.Count / 100) + 1) * 0.64255,
-                Math.Log10(35 * ((double)_downCars.Count / (double)100) + 1) * 0.64255);
+            _goAxis = _trafficController.DetermineAxis(
+                Math.Log10(35 * ((double)_leftCars.Count / (double)40) + 1) * 0.64255,
+                Math.Log10(35 * ((double)_rightCars.Count / (double)40) + 1) * 0.64255,
+                Math.Log10(35 * ((double)_upCars.Count / (double)40) + 1) * 0.64255,
+                Math.Log10(35 * ((double)_downCars.Count / (double)40) + 1) * 0.64255);
 
             // spawn new car
             if(_updatesSinceOrganismStart % 5 == 0){
@@ -319,6 +324,7 @@ namespace ANN_Traffic_Library
                     if(car.IsFinished)
                     {
                         finishedCars.Add(car);
+                        _trafficController.Points++;
                     }
                 }
                 // remove done cars
@@ -338,6 +344,7 @@ namespace ANN_Traffic_Library
                     if (car.IsFinished)
                     {
                         finishedCars.Add(car);
+                        _trafficController.Points++;
                     }
                 }
                 // remove done cars
@@ -376,6 +383,7 @@ namespace ANN_Traffic_Library
                     if (car.IsFinished)
                     {
                         finishedCars.Add(car);
+                        _trafficController.Points++;
                     }
                 }
                 // remove done cars
@@ -395,6 +403,7 @@ namespace ANN_Traffic_Library
                     if (car.IsFinished)
                     {
                         finishedCars.Add(car);
+                        _trafficController.Points++;
                     }
                 }
                 // remove done cars

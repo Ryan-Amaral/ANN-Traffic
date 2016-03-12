@@ -459,6 +459,7 @@
             this.Controls.Add(this.groupBoxANN);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.DoubleBuffered = true;
             this.Name = "FormAnnTrafficMain";
             this.Text = "ANN Traffic";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAnnTrafficMain_FormClosing);
