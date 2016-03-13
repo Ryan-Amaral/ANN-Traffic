@@ -93,9 +93,17 @@ namespace ANN_Traffic_Library
 
         private const int _numGenes = 5; // amount of genes
         private double[,] _annGenes; // the genes for neural networks
+        private double[,] _newAnnGenes; // the genes for neural networks, to do recombonation
         public TrafficController TrafficController; // what determines when to change light at intersections
         private double[] _tmpDoubleArr;
 
+        private double[] _tmpGenes1;
+        private double[] _tmpGenes2;
+
+        private int[] _scores;
+        private int _counter = 0;
+
+        private AnnScore[] _annScores;
         public Simulation(Rectangle drawArea, int gens, int orgsPerGen, int carSpeed, int carAccel, int carSpawnRate, double mutationProb, double stepSize)
         {
             IsReady = true;
@@ -156,6 +164,14 @@ namespace ANN_Traffic_Library
                 _tmpDoubleArr[i] = _annGenes[0, i];
             }
             TrafficController = new TrafficController(new NeuralNetwork(_tmpDoubleArr));
+
+            _newAnnGenes = new double[_generations, _numGenes];
+            _tmpGenes1 = new double[_numGenes];
+            _tmpGenes2 = new double[_numGenes];
+
+            _scores = new int[_generations * _organismsPerGeneration];
+
+            _annScores = new AnnScore[_organismsPerGeneration];
         }
 
         /// <summary>
@@ -322,7 +338,7 @@ namespace ANN_Traffic_Library
                     if(car.IsFinished)
                     {
                         finishedCars.Add(car);
-                        TrafficController.Points++;
+                        TrafficController.Points += 2;
                     }
                 }
                 // remove done cars
@@ -342,7 +358,7 @@ namespace ANN_Traffic_Library
                     if (car.IsFinished)
                     {
                         finishedCars.Add(car);
-                        TrafficController.Points++;
+                        TrafficController.Points += 2;
                     }
                 }
                 // remove done cars
@@ -381,7 +397,7 @@ namespace ANN_Traffic_Library
                     if (car.IsFinished)
                     {
                         finishedCars.Add(car);
-                        TrafficController.Points++;
+                        TrafficController.Points += 2;
                     }
                 }
                 // remove done cars
@@ -401,7 +417,7 @@ namespace ANN_Traffic_Library
                     if (car.IsFinished)
                     {
                         finishedCars.Add(car);
-                        TrafficController.Points++;
+                        TrafficController.Points += 2;
                     }
                 }
                 // remove done cars
@@ -476,12 +492,21 @@ namespace ANN_Traffic_Library
             // see if need new TrafficController
             if (_updatesSinceOrganismStart >= UPDATES_PER_ORGANISM)
             {
+                _scores[_counter] = TrafficController.Points;
+                _counter++;
+
                 // remove all cars
                 _leftCars = new List<Car>();
                 _rightCars = new List<Car>();
                 _upCars = new List<Car>();
                 _downCars = new List<Car>();
 
+                // put score for current organism
+                for (int i = 0; i < _numGenes; i++)
+                {
+                    _tmpDoubleArr[i] = _annGenes[CurrentOrganismInGeneration, i];
+                }
+                _annScores[CurrentOrganismInGeneration] = new AnnScore((double[])_tmpDoubleArr.Clone(), TrafficController.Points);
 
                 // get score for current organism
                 // see if score is better than best score
@@ -499,12 +524,53 @@ namespace ANN_Traffic_Library
                     CurrentOrganismInGeneration = 0;
                     CurrentGeneration++;
 
-                    // do genetic algorithm stuff
+                    // sort score
+                    AnnScore.SortAnnScores(_annScores);
 
-                    if(CurrentGeneration == _generations)
+                    // do genetic algorithm stuff
+                    for (int i = 0; i < _organismsPerGeneration; i++)
+                    {
+                        // get first gene
+                        for (int j = 0; j < _organismsPerGeneration; j++)
+                        {
+                            if(Utils.Random.NextDouble() > 0.2 || j == _organismsPerGeneration - 1)
+                            {
+                                 _tmpGenes1 = (double[])_annScores[j].NeuralNetGenes.Clone();
+                            }
+                        }
+                        // get second gene
+                        for (int j = 0; j < _organismsPerGeneration; j++)
+                        {
+                            if (Utils.Random.NextDouble() > 0.1 || j == _organismsPerGeneration - 1)
+                            {
+                                _tmpGenes2 = (double[])_annScores[j].NeuralNetGenes.Clone();
+                            }
+                        }
+
+                        // combine genes
+                        if(CurrentGeneration % 10 == 0)
+                        {
+                            // occasional extra large step every 10 generations
+                            _tmpDoubleArr = GeneticAlgorithms.CombineGenes(_tmpGenes1, _tmpGenes2, _mutationProb, _stepSize * 2);
+                        }
+                        else
+                        {
+                            _tmpDoubleArr = GeneticAlgorithms.CombineGenes(_tmpGenes1, _tmpGenes2, _mutationProb, _stepSize);
+                        }
+                        // fill in new ann genes with it
+                        for (int j = 0; j < _numGenes; j++ )
+                        {
+                            _newAnnGenes[i, j] = _tmpDoubleArr[j];
+                        }
+                    }
+
+                    // set actual genes to new ones
+                    _annGenes = _newAnnGenes;
+
+                    if (CurrentGeneration == _generations)
                     {
                         // tell we are finished
-                        if(Finished != null)
+                        if (Finished != null)
                         {
                             Finished();
                         }
@@ -534,6 +600,54 @@ namespace ANN_Traffic_Library
                 if (Updated != null && _updatesSinceOrganismStart % 100 == 0)
                 {
                     Updated();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// This class is used for sorting of scores.
+    /// </summary>
+    class AnnScore
+    {
+        public double[] NeuralNetGenes { get; set; }
+        public int Fitness { get; set; }
+
+        /// <summary>
+        /// Creates a new object with the genes and fitness.
+        /// </summary>
+        /// <param name="neuralNetGenes"></param>
+        /// <param name="fitness"></param>
+        public AnnScore(double[] neuralNetGenes, int fitness)
+        {
+            NeuralNetGenes = neuralNetGenes;
+            Fitness = fitness;
+        }
+
+        /// <summary>
+        /// Sorts an array of AnnScores using shell-sort, descending.
+        /// </summary>
+        public static void SortAnnScores(AnnScore[] annScores)
+        {
+            AnnScore temp; // temp swapping space
+            // do shell sort for each interval starting from half rounded down to one
+            for (int i = annScores.Length / 2; i > 0; i /= 2)
+            {
+                for (int j = 0; j < annScores.Length - i; j++)
+                {
+                    for (int k = j; k >= 0; k -= i)
+                    {
+                        if (annScores[k].Fitness < annScores[k + i].Fitness)
+                        {
+                            temp = annScores[k];
+                            annScores[k] = annScores[k + i];
+                            annScores[k + i] = temp;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
                 }
             }
         }

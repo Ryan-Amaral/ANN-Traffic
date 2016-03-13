@@ -322,6 +322,8 @@ namespace ANN_Traffic_Presentation
             _simulation = new Simulation(panelTrafficDrawArea.DisplayRectangle,
                 _generations, _organismsPerGen, _carSpeed, _carAcceleration, _carSpawnRate, _mutationProb, _maxStepSize);
 
+            _bestFitness = -9999999;
+
             // disable buttons
             comboBoxSimulationSpeed.Enabled = false;
             comboBoxMutationProb.Enabled = false;
@@ -397,6 +399,11 @@ namespace ANN_Traffic_Presentation
             checkBoxDraw.Enabled = true;
             buttonStart.Enabled = true;
             buttonStop.Enabled = false;
+
+            labelValAchieved.Text = "--";
+            labelValBestFitness.Text = "--";
+            labelValCurrentGen.Text = "--";
+            labelValOrganismInGen.Text = "--";
 
             timerSimulation.Stop();
 

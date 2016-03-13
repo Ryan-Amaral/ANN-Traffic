@@ -10,5 +10,6 @@ namespace ANN_Traffic_Library
     public enum Axis { Horizontal, Vertical}
     public class Utils
     {
+        public static Random Random = new Random();
     }
 }

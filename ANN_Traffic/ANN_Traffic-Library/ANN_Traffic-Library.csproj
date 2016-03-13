@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Car.cs" />
+    <Compile Include="GeneticAlgorithms.cs" />
     <Compile Include="NeuralNetwork.cs" />
     <Compile Include="NeuralNetworkDrawer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
