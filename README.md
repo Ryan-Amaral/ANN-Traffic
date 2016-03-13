@@ -1,5 +1,7 @@
 # ANN-Traffic
 
+The problem with this program, is that the problem I use in it is too simple to need an ANN. This does not mean that the ANN won't be effective, it just means that I could have just used a basic algorithm to find the solution quicker. Remember folks, always ask yourself whether you really need machine learning. However, this program still shows off the basics of how an ANN and GA can work.
+
 This Windows Forms program is a demonstration of an Artificial Neural Network being trained by a Genetic Algorithm.
 
 The problem that the ANN is trying to solve is getting as many cars as possible through an intersection. It is a very basic problem and simply requires the ANN to switch direction of traffic to the axis with the most traffic.
