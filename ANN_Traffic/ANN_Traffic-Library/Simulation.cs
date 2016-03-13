@@ -91,7 +91,7 @@ namespace ANN_Traffic_Library
 
         private List<Car> finishedCars;
 
-        private const int _numGenes = 5; // amount of genes
+        private const int _numGenes = 4; // amount of genes
         private double[,] _annGenes; // the genes for neural networks
         private double[,] _newAnnGenes; // the genes for neural networks, to do recombonation
         public TrafficController TrafficController; // what determines when to change light at intersections
@@ -154,7 +154,6 @@ namespace ANN_Traffic_Library
                 {
                     _annGenes[i, j] = (_rand.NextDouble() * 2) - 1; // rand value between -1 and 1
                 }
-                _annGenes[i, 4] = (_rand.NextDouble() * 8) - 4; // rand value between -4 and 4
             }
 
             _tmpDoubleArr = new double[_numGenes];
@@ -492,8 +491,6 @@ namespace ANN_Traffic_Library
             // see if need new TrafficController
             if (_updatesSinceOrganismStart >= UPDATES_PER_ORGANISM)
             {
-                _scores[_counter] = TrafficController.Points;
-                _counter++;
 
                 // remove all cars
                 _leftCars = new List<Car>();

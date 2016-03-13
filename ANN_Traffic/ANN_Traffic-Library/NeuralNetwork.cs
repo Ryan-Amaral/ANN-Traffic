@@ -21,7 +21,7 @@ namespace ANN_Traffic_Library
 
         // output layer
         public double ONeuron;
-        public double OBias;
+        //public double OBias;
 
         public Axis OutDirection; // what the neural net returns
 
@@ -34,7 +34,7 @@ namespace ANN_Traffic_Library
             IWeights[1] = weights[1];
             IWeights[2] = weights[2];
             IWeights[3] = weights[3];
-            OBias = weights[4];
+            //OBias = weights[4];
 
             // set initial neuron values
             ONeuron = 0;
@@ -71,7 +71,7 @@ namespace ANN_Traffic_Library
                 // output neuron += each hidden layer neuron times it's weight
                 ONeuron += INeurons[i] * IWeights[i];
             }
-            ONeuron += OBias; // add bias
+            //ONeuron += OBias; // add bias
             ONeuron = ActivationFunction(ONeuron); // apply activation function
 
             if (ONeuron > 0.5f)

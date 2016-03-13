@@ -339,6 +339,11 @@ namespace ANN_Traffic_Presentation
 
             _simulation.Finished += new FinishedHandler(OnSimulationFinished);
 
+            labelValAchieved.Text = "--";
+            labelValBestFitness.Text = "--";
+            labelValCurrentGen.Text = "--";
+            labelValOrganismInGen.Text = "--";
+
             if(_simSpeed != 2)
             {
                 timerSimulation.Start();
@@ -399,11 +404,6 @@ namespace ANN_Traffic_Presentation
             checkBoxDraw.Enabled = true;
             buttonStart.Enabled = true;
             buttonStop.Enabled = false;
-
-            labelValAchieved.Text = "--";
-            labelValBestFitness.Text = "--";
-            labelValCurrentGen.Text = "--";
-            labelValOrganismInGen.Text = "--";
 
             timerSimulation.Stop();
 

@@ -51,31 +51,6 @@ namespace ANN_Traffic_Library
                 }
             }
 
-            // bias between -4 and +4
-            // 50% from either gene
-            if (Utils.Random.NextDouble() > 0.5)
-            {
-                outGenes[4] = genes1[4];
-            }
-            else
-            {
-                outGenes[4] = genes2[4];
-            }
-
-            // mutate bias
-            if (Utils.Random.NextDouble() > mutationProb)
-            {
-                outGenes[4] += (Utils.Random.NextDouble() * (stepSize * 8)) - (stepSize * 4);
-                if (outGenes[4] > 4)
-                {
-                    outGenes[4] = 4;
-                }
-                else if (outGenes[4] < -4)
-                {
-                    outGenes[4] = -4;
-                }
-            }
-
             return outGenes;
         }
     }
